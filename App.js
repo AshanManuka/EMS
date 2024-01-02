@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screen/HomeScreen';
 import DetailScreen from './screen/DetailScreen';
+import PrinterScreen from './screen/PrinterScreen';
 
 const stack = createNativeStackNavigator();
 
@@ -15,10 +16,13 @@ export default function App() {
           name= 'Home'
           component={HomeScreen}
         />
-
         <stack.Screen
           name= 'Details'
           component={DetailScreen}
+        />
+        <stack.Screen
+          name= 'Printers'
+          component={PrinterScreen}
         />
         
       </stack.Navigator>

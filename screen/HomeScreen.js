@@ -10,7 +10,7 @@ const HomeScreen = ({navigation}) => {
 
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
-        onPress={() => navigation.navigate('Details')}>
+        onPress={() => navigation.navigate('Printers')}>
         <Text style={styles.btnText}>PrintOut/PhotoCopy</Text>  
         </Pressable>
         </View>
