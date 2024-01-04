@@ -1,30 +1,87 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Alert, Button, TouchableOpacity } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
 
     const [text, onChangeText] = React.useState('');
+    const [number, onChangeNumber] = React.useState('');
 
+
+    const handleTextChange = (inputText) => {
+      onChangeText(inputText); // Update the state with the typed text
+      //Implement code here to search customer by name
+    };
+
+    const itemCount = (inputText) => {
+      onChangeNumber(inputText)
+      //Implement code here to search customer by name
+    };
+
+    const unitPrice = (inputText) => {
+      onChangeNumber(inputText); // Update the state with the typed text
+      //Implement code here to search customer by name
+    };
+
+    const searchCustomer = () => {
+      if (text !== '') {
+        alert(`Input value: ${text}`);
+        //search customer
+      } else {
+        alert('Please enter a value to search.');
+      }
+    };
 
     return (
     <View style={styles.body}>
-        <Text style={styles.textOne}>Printing Items</Text>
+        <Text style={styles.textThree}>Current Balance</Text>
+        <Text style={styles.balance}>Rs 00.00</Text>
 
         <Text style={styles.textTwo}>Customer</Text>
 
-        <TextInput
+      <TextInput
         style={styles.inputOne}
-        onChangeText={onChangeText}
+        onChangeText={handleTextChange}
         value={text}
       />
 
-      <View style={styles.subView}>
-      <Text style={styles.textThree}>Customer</Text>
-      <Text style={styles.textThree}>Customer</Text>
-      <Text style={styles.textThree}>Customer</Text>
+      <TouchableOpacity
+        style={styles.searchBtn}
+        onPress={searchCustomer}
+      >
+        <Text style={styles.buttonText}>Search</Text>
+      </TouchableOpacity> 
 
-      </View>
+    <View></View>
 
+    <TouchableOpacity
+        style={styles.photocopySelectBtn}
+        onPress={() => Alert.alert("Photocopy Selected")}
+      >
+        <Text style={styles.commonBtnText}>PhotoCopy</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.printoutSelectBtn}
+        onPress={() => Alert.alert("Photocopy Selected")}
+      >
+        <Text style={styles.commonBtnText}>PrintOut</Text>
+      </TouchableOpacity>
+
+      <TextInput
+        style={styles.inputQty}
+        placeholder='Count'
+        onChangeText={itemCount}
+        value={number}
+        keyboardType='numeric'
+      />
+
+      <TextInput
+        style={styles.inputPrice}
+        placeholder='Unit Price'
+        onChangeText={unitPrice}
+        value={number}
+        keyboardType='numeric'
+      />
 
         
     </View>
@@ -62,12 +119,40 @@ const styles= StyleSheet.create({
       },
       inputOne: {
         height: 40,
-        width:'55%',
+        width:'45%',
         borderWidth: 1,
-        borderRadius:6,
         marginTop:'-8%',
-        marginLeft:'25%',
-        borderColor:'#ffff',
+        marginLeft:'15%',
+        borderTopColor:'#0a3d62',
+        borderLeftColor:'#0a3d62',
+        borderRightColor:'#0a3d62',
+        borderBottomColor:'#fff',
+        color:'#fff',
+        fontSize:18,
+      },
+      inputQty:{
+        height: 40,
+        width:'30%',
+        borderWidth: 1,
+        marginTop:'12%',
+        marginLeft:'-40%',
+        borderTopColor:'#0a3d62',
+        borderLeftColor:'#0a3d62',
+        borderRightColor:'#0a3d62',
+        borderBottomColor:'#fff',
+        color:'#fff',
+        fontSize:18,
+      },
+      inputPrice:{
+        height: 40,
+        width:'30%',
+        borderWidth: 1,
+        marginTop:'-10%',
+        marginLeft:'35%',
+        borderTopColor:'#0a3d62',
+        borderLeftColor:'#0a3d62',
+        borderRightColor:'#0a3d62',
+        borderBottomColor:'#fff',
         color:'#fff',
         fontSize:18,
       },
@@ -75,6 +160,38 @@ const styles= StyleSheet.create({
         backgroundColor:'#2c3e50',
         marginLeft:'-70%',
         marginTop:'10%',
+      },
+      searchBtn:{
+        backgroundColor:'#fff',
+        right:'-40%',
+        marginTop:'-8%',
+        padding:'1%',
+        borderRadius:3,
+      },
+      balance:{
+        color:'red',
+        fontSize:25,
+      },
+      photocopySelectBtn:{
+        backgroundColor:'#fff',
+        paddingLeft:'1%',
+        paddingRight:'1%',
+        borderRadius:2,
+        marginTop:'30%',
+        marginLeft:'-30%'
+
+      },
+      printoutSelectBtn:{
+        backgroundColor:'#fff',
+        paddingLeft:'1%',
+        paddingRight:'1%',
+        borderRadius:2,
+        marginTop:'-7%',
+        marginLeft:'30%'
+      },
+      commonBtnText:{
+        fontSize:20,
+        fontWeight:'bold'
       }
           
   })

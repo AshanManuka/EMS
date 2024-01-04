@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View, Pressable, Alert } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Alert } from 'react-native'
 
 const HomeScreen = ({navigation}) => {
 
@@ -18,7 +18,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
         onPress={() => navigation.navigate('Details')}>
-        <Text style={styles.btnText}>Other Item</Text>  
+        <Text style={styles.btnText}>Other Item</Text>
         </Pressable>
         </View>
 
