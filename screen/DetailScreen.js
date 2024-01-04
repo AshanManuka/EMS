@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
 
 const DetailScreen = ({navigation}) => {
 
@@ -10,6 +10,11 @@ const DetailScreen = ({navigation}) => {
         //Implement code here to search customer by name
       };
 
+      const addCustomer = () => {
+
+        alert("Save Customer..! ")
+      }
+
 
     return (
     <View style={styles.container}>
@@ -18,13 +23,35 @@ const DetailScreen = ({navigation}) => {
 
         <Text style={styles.textOne}>Add Customer :</Text>
 
-
-
         <TextInput
         style={styles.inputOne}
         onChangeText={handleTextChange}
         value={text}
         />
+
+        <TouchableOpacity
+        style={styles.addCustomerBtn}
+        onPress={addCustomer}
+        >
+        <Text style={styles.processBtnText}>Save Customer</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.line}>________________________________________________________________</Text>
+
+        <Text style={styles.textTwo}>Search Customer :</Text>
+
+        <TextInput
+        style={styles.inputTwo}
+        onChangeText={handleTextChange}
+        value={text}
+        />
+
+
+        <View style={styles.substage}>
+        <Text style={styles.textThree}>Current Balance</Text>
+        <Text style={styles.balance}>00.00</Text>
+
+        </View>
 
 
 
@@ -67,9 +94,63 @@ const styles = StyleSheet.create({
         borderRightColor:'#0a3d62',
         borderBottomColor:'#fff',
         color:'#fff',
-        fontSize:18,
-        
-    }
+        fontSize:18,   
+    },
+    addCustomerBtn:{
+        backgroundColor:'#1abc9c',
+        paddingLeft:'10%',
+        paddingRight:'10%',
+        paddingTop:'2%',
+        paddingBottom:'2%',
+        borderRadius:2,
+        marginTop:'6%',
+        marginLeft:'40%'
+    },
+    line:{
+        color:'#7f8c8d',
+        fontSize:10,
+        marginTop:'20%'
+    },
+    textTwo:{
+        color:'#fff',
+        fontSize:20,
+        marginTop:'10%',
+        fontWeight:'bold',
+        marginLeft:'-50%'
+    },
+    inputTwo:{
+        height: 40,
+        width:'48%',
+        borderWidth: 1,
+        marginTop:'-10%',
+        marginLeft:'48%',
+        borderTopColor:'#0a3d62',
+        borderLeftColor:'#0a3d62',
+        borderRightColor:'#0a3d62',
+        borderBottomColor:'#fff',
+        color:'#fff',
+        fontSize:18, 
+    },
+    substage:{
+      backgroundColor:'#182C61',
+      borderRadius:15,
+      padding:'5%',
+      marginTop:'15%'
+    },
+    textThree:{
+        color: '#dfe4ea',
+        marginTop: '1%',
+        marginBottom:'1%',
+        marginLeft:'2%',
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    balance:{
+        color:'#EA2027',
+        fontSize:25,
+        marginLeft:'55%',
+        marginTop:'-10%'
+    },
 
 })
     

@@ -6,6 +6,7 @@ const PrinterScreen = ({navigation}) => {
     const [text, onChangeText] = React.useState('');
     const [qty, onChangeQty] = React.useState('');
     const [price, onChangePrice] = React.useState('');
+    const [payment, onTodayPayment] = React.useState('');
 
 
     const handleTextChange = (inputText) => {
@@ -20,6 +21,11 @@ const PrinterScreen = ({navigation}) => {
 
     const unitPrice = (inputText) => {
       onChangePrice(inputText); // Update the state with the typed text
+      //Implement code here to search customer by name
+    };
+
+    const todayPayment = (inputText) => {
+      onTodayPayment(inputText); // Update the state with the typed text
       //Implement code here to search customer by name
     };
 
@@ -112,6 +118,14 @@ const PrinterScreen = ({navigation}) => {
         <Text style={styles.balance}>00.00</Text>
         </View>
 
+        <TextInput
+        style={styles.inputPayment}
+        placeholder='Payment'
+        onChangeText={todayPayment}
+        value={payment}
+        keyboardType='numeric'
+      />
+
 
         <TouchableOpacity
         style={styles.newBtn}
@@ -182,10 +196,10 @@ const styles= StyleSheet.create({
       },
       inputQty:{
         height: 40,
-        width:'30%',
-        borderWidth: 1,
+        width:'25%',
+        borderWidth: 2,
         marginTop:'12%',
-        marginLeft:'-40%',
+        marginLeft:'-70%',
         borderTopColor:'#0a3d62',
         borderLeftColor:'#0a3d62',
         borderRightColor:'#0a3d62',
@@ -195,10 +209,22 @@ const styles= StyleSheet.create({
       },
       inputPrice:{
         height: 40,
-        width:'30%',
+        width:'25%',
+        borderWidth: 2,
+        marginTop:'-9.75%',
+        marginLeft:'-10%',
+        borderTopColor:'#0a3d62',
+        borderLeftColor:'#0a3d62',
+        borderRightColor:'#0a3d62',
+        borderBottomColor:'#fff',
+        color:'#fff',
+        fontSize:18,
+      },
+      inputPayment:{
+        height: 40,
+        width:'60%',
         borderWidth: 1,
-        marginTop:'-10%',
-        marginLeft:'35%',
+        marginTop:'10%',
         borderTopColor:'#0a3d62',
         borderLeftColor:'#0a3d62',
         borderRightColor:'#0a3d62',
@@ -245,12 +271,13 @@ const styles= StyleSheet.create({
       },
       processBtn:{
         backgroundColor:'#ffcccc',
-        marginTop:'10%',
+        marginTop:'-10%',
         paddingLeft:'5%',
         paddingRight:'5%',
         paddingTop:'1%',
         paddingBottom:'1%',
-        borderRadius:2
+        borderRadius:2,
+        marginLeft:'62%'
       },
       processBtnText:{
         fontSize:20,
