@@ -13,15 +13,15 @@ export default function App() {
     <NavigationContainer>
       <stack.Navigator>   
         <stack.Screen
-          name= 'Home'
+          name= 'Home' options={{headerShown: false}}
           component={HomeScreen}
         />
         <stack.Screen
-          name= 'Details'
+          name= 'Details' options={{headerShown: false}}
           component={DetailScreen}
         />
         <stack.Screen
-          name= 'Printers'
+          name= 'Printers' options={{headerShown: false}}
           component={PrinterScreen}
         />
         

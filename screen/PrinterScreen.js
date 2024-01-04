@@ -4,7 +4,8 @@ import { StyleSheet, Text, View, TextInput, Alert, Button, TouchableOpacity } fr
 const PrinterScreen = ({navigation}) => {
 
     const [text, onChangeText] = React.useState('');
-    const [number, onChangeNumber] = React.useState('');
+    const [qty, onChangeQty] = React.useState('');
+    const [price, onChangePrice] = React.useState('');
 
 
     const handleTextChange = (inputText) => {
@@ -13,12 +14,12 @@ const PrinterScreen = ({navigation}) => {
     };
 
     const itemCount = (inputText) => {
-      onChangeNumber(inputText)
+      onChangeQty(inputText)
       //Implement code here to search customer by name
     };
 
     const unitPrice = (inputText) => {
-      onChangeNumber(inputText); // Update the state with the typed text
+      onChangePrice(inputText); // Update the state with the typed text
       //Implement code here to search customer by name
     };
 
@@ -31,12 +32,22 @@ const PrinterScreen = ({navigation}) => {
       }
     };
 
+    const makeBusiness = () => {
+
+      alert("A set created..! ")
+    }
+
     return (
     <View style={styles.body}>
-        <Text style={styles.textThree}>Current Balance</Text>
-        <Text style={styles.balance}>Rs 00.00</Text>
 
-        <Text style={styles.textTwo}>Customer</Text>
+      <TouchableOpacity
+        style={styles.customerBtn}
+        onPress={() => navigation.navigate("Details")}
+      >
+        <Text style={styles.processBtnText}>Customers</Text>
+      </TouchableOpacity>
+        
+      <Text style={styles.textTwo}>Customer</Text>
 
       <TextInput
         style={styles.inputOne}
@@ -71,7 +82,7 @@ const PrinterScreen = ({navigation}) => {
         style={styles.inputQty}
         placeholder='Count'
         onChangeText={itemCount}
-        value={number}
+        value={qty}
         keyboardType='numeric'
       />
 
@@ -79,9 +90,42 @@ const PrinterScreen = ({navigation}) => {
         style={styles.inputPrice}
         placeholder='Unit Price'
         onChangeText={unitPrice}
-        value={number}
+        value={price}
         keyboardType='numeric'
       />
+
+      <TouchableOpacity
+        style={styles.processBtn}
+        onPress={makeBusiness}
+      >
+        <Text style={styles.processBtnText}>Proceed</Text>
+      </TouchableOpacity>
+
+        <View style={styles.substage}>
+        <Text style={styles.textThree}>Current Balance</Text>
+        <Text style={styles.balance}>00.00</Text>
+
+        <Text style={styles.textThree}>Today Bill</Text>
+        <Text style={styles.balance}>00.00</Text>
+
+        <Text style={styles.textThree}>Total Amount</Text>
+        <Text style={styles.balance}>00.00</Text>
+        </View>
+
+
+        <TouchableOpacity
+        style={styles.newBtn}
+        onPress={makeBusiness}
+      >
+        <Text style={styles.processBtnText}>+ Items</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.confirmBtn}
+        onPress={makeBusiness}
+      >
+        <Text style={styles.processBtnText}>Done</Text>
+      </TouchableOpacity>
 
         
     </View>
@@ -102,11 +146,17 @@ const styles= StyleSheet.create({
       fontSize: 25,
       fontWeight: 'bold'
     },
+    substage:{
+      backgroundColor:'#182C61',
+      borderRadius:15,
+      padding:'5%',
+      marginTop:'15%'
+    },
     textTwo:{
         color: '#dfe4ea',
         marginLeft: '-65%',
         marginTop: '5%',
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 'bold'
       },
       textThree:{
@@ -122,7 +172,7 @@ const styles= StyleSheet.create({
         width:'45%',
         borderWidth: 1,
         marginTop:'-8%',
-        marginLeft:'15%',
+        marginLeft:'10%',
         borderTopColor:'#0a3d62',
         borderLeftColor:'#0a3d62',
         borderRightColor:'#0a3d62',
@@ -162,36 +212,79 @@ const styles= StyleSheet.create({
         marginTop:'10%',
       },
       searchBtn:{
-        backgroundColor:'#fff',
+        backgroundColor:'#fab1a0',
         right:'-40%',
         marginTop:'-8%',
         padding:'1%',
         borderRadius:3,
       },
       balance:{
-        color:'red',
+        color:'#EA2027',
         fontSize:25,
+        marginLeft:'55%',
+        marginTop:'-10%'
       },
       photocopySelectBtn:{
-        backgroundColor:'#fff',
-        paddingLeft:'1%',
-        paddingRight:'1%',
-        borderRadius:2,
+        backgroundColor:'#f5cd79',
+        paddingLeft:'11%',
+        paddingRight:'11%',
         marginTop:'30%',
-        marginLeft:'-30%'
+        marginLeft:'-45%'
 
       },
       printoutSelectBtn:{
-        backgroundColor:'#fff',
-        paddingLeft:'1%',
-        paddingRight:'1%',
-        borderRadius:2,
-        marginTop:'-7%',
-        marginLeft:'30%'
+        backgroundColor:'#f5cd79',
+        paddingLeft:'12%',
+        paddingRight:'12%',
+        marginTop:'-7.25%',
+        marginLeft:'50%'
       },
       commonBtnText:{
         fontSize:20,
         fontWeight:'bold'
+      },
+      processBtn:{
+        backgroundColor:'#ffcccc',
+        marginTop:'10%',
+        paddingLeft:'5%',
+        paddingRight:'5%',
+        paddingTop:'1%',
+        paddingBottom:'1%',
+        borderRadius:2
+      },
+      processBtnText:{
+        fontSize:20,
+        fontWeight:'bold',
+      },
+      newBtn:{
+        backgroundColor:'#00d8d6',
+        marginTop:'10%',
+        paddingLeft:'10%',
+        paddingRight:'10%',
+        paddingTop:'2%',
+        paddingBottom:'2%',
+        marginLeft:'-45%',
+        borderRadius:2
+      },
+      confirmBtn:{
+        backgroundColor:'#0be881',
+        marginTop:'-11.25%',
+        paddingLeft:'15%',
+        paddingRight:'15%',
+        paddingTop:'2%',
+        paddingBottom:'2%',
+        marginLeft:'40%',
+        borderRadius:2
+      },
+      customerBtn:{
+        backgroundColor:'#ff7675',
+        marginTop:'15%',
+        marginBottom:'5%',
+        paddingLeft:'30%',
+        paddingRight:'30%',
+        paddingTop:'1%',
+        paddingBottom:'2%',
+        borderRadius:3
       }
           
   })

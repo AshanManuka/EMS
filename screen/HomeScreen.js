@@ -18,14 +18,14 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
         onPress={() => navigation.navigate('Details')}>
-        <Text style={styles.btnText}>Other Item</Text>
+        <Text style={styles.btnText}>Selling Item</Text>
         </Pressable>
         </View>
 
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
-        onPress={() => Alert.alert('Under Development..!')}>
-        <Text style={styles.btnText}>Summery</Text>  
+        onPress={() => navigation.navigate('Details')}>
+        <Text style={styles.btnText}>Customers</Text>  
         </Pressable>
         </View>
 
