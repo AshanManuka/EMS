@@ -1,5 +1,7 @@
 import React from 'react';
 import { searchCustomersByName } from './Database';
+import { addBusinessData } from './Database';
+import { getAllBusinessData } from './Database';
 import { StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
@@ -9,6 +11,11 @@ const PrinterScreen = ({navigation}) => {
     const [price, onChangePrice] = React.useState('');
     const [payment, onTodayPayment] = React.useState('');
     const [searchResults, setSearchResults] = React.useState([]);
+    const [currentBalanceValue, setBalance] = React.useState('0.0');
+    const [currentCustomer, setCurrentCustomer] = React.useState('');
+    const [selectedItem, setItemName] = React.useState('');
+    const [copyButtonColor, setButtonColorOne] = React.useState('#f5cd79');
+    const [printButtonColor, setButtonColorTwo] = React.useState('#f5cd79');
 
 
     const handleTextChange = (inputText) => {
@@ -35,10 +42,7 @@ const PrinterScreen = ({navigation}) => {
       if (text !== '') {
         searchCustomersByName(text, (results) => {
           if (results.length > 0) {
-            // Process the search results here
             console.log('Search results:', results);
-            // Update state or perform actions based on search results
-            // For example, set the search results in state to display in the UI
             setSearchResults(results);
           } else {
             alert('No matching customers found.');
@@ -50,8 +54,35 @@ const PrinterScreen = ({navigation}) => {
     };
 
     const makeBusiness = () => {
-
+      const customerId = currentCustomer;
+      const itemName = selectedItem;
+      const count = qty;
+      const totalAmount = qty*price;
+      //const date = new date; // Replace with actual date (formatted as 'YYYY-MM-DD')
+      addBusinessData(customerId, itemName, count, totalAmount);
       alert("A set created..! ")
+    }
+
+    const fetchBusinessData = () => {
+      getAllBusinessData((businessData) => {
+        console.log(businessData);
+      });
+    };
+
+    const setBalanceToField = (name,balance,id) => {
+      alert(`Selected customer: ${name}`);
+      setCurrentCustomer(id);
+      setBalance(balance)
+    }
+
+    const selectedPrintBtn = () => {
+      setButtonColorTwo('#227093');
+      setItemName('Print-Out');
+    }
+
+    const selectedCopyBtn = () => {
+      setButtonColorOne('#227093');
+      setItemName('Photo-Copy');
     }
 
     return (
@@ -85,10 +116,7 @@ const PrinterScreen = ({navigation}) => {
           <TouchableOpacity
             key={result.id}
             style={styles.searchResultItem}
-            onPress={() => {
-              // Handle navigation or action when a result is selected
-              alert(`Selected customer: ${result.name}`);
-            }}
+            onPress={() => {setBalanceToField(result.name,result.balance,result.id)}}
           >
             <Text style={styles.searchResultText}>{result.name}</Text>
           </TouchableOpacity>
@@ -96,15 +124,15 @@ const PrinterScreen = ({navigation}) => {
       </View>
 
     <TouchableOpacity
-        style={styles.photocopySelectBtn}
-        onPress={() => Alert.alert("Photocopy Selected")}
+        style={[styles.photocopySelectBtn, { backgroundColor: copyButtonColor }]}
+        onPress={selectedCopyBtn}
       >
         <Text style={styles.commonBtnText}>PhotoCopy</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.printoutSelectBtn}
-        onPress={() => Alert.alert("Photocopy Selected")}
+        style={[styles.printoutSelectBtn, { backgroundColor: printButtonColor }]}
+        onPress={selectedPrintBtn}
       >
         <Text style={styles.commonBtnText}>PrintOut</Text>
       </TouchableOpacity>
@@ -134,7 +162,7 @@ const PrinterScreen = ({navigation}) => {
 
         <View style={styles.substage}>
         <Text style={styles.textThree}>Current Balance</Text>
-        <Text style={styles.balance}>00.00</Text>
+        <Text style={styles.balance}>{currentBalanceValue}</Text>
 
         <Text style={styles.textThree}>Today Bill</Text>
         <Text style={styles.balance}>00.00</Text>
@@ -161,7 +189,7 @@ const PrinterScreen = ({navigation}) => {
 
       <TouchableOpacity
         style={styles.confirmBtn}
-        onPress={makeBusiness}
+        onPress={fetchBusinessData}
       >
         <Text style={styles.processBtnText}>Done</Text>
       </TouchableOpacity>
@@ -339,15 +367,19 @@ const styles= StyleSheet.create({
         borderRadius:3
       },
       searchResultsContainer: {
-        marginTop: 20,
+        position:'absolute',
+        marginTop: '40%',
+        flexDirection: 'row',
         alignItems: 'center',
+        width:'99%',
       },
       searchResultItem: {
         backgroundColor: '#3498db',
         padding: 10,
         marginVertical: 5,
+        marginRight: 2,
         borderRadius: 5,
-        width: '80%',
+        
       },
       searchResultText: {
         color: '#fff',

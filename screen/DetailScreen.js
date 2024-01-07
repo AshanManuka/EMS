@@ -13,7 +13,7 @@ const DetailScreen = ({navigation}) => {
 
       const saveCustomer = () => {
         const customerName = text;
-        const initialBalance = 0.1;
+        const initialBalance = 0.0;
 
         addCustomer(customerName, initialBalance);
         alert("Customer saved!");

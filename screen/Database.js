@@ -10,6 +10,14 @@ export const setupDatabase = () => {
   });
 };
 
+export const setupBusinessTable = () => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      'CREATE TABLE IF NOT EXISTS business (id INTEGER PRIMARY KEY AUTOINCREMENT, customerId INTEGER, itemName TEXT, count INTEGER, totalAmount REAL, date TEXT);'
+    );
+  });
+};
+
 export const addCustomer = (name,balance) => {
   db.transaction(
     (tx) => {
@@ -18,6 +26,15 @@ export const addCustomer = (name,balance) => {
     null,
     () => console.log("Customer added successfully") // Handle success
   );
+};
+
+export const getAllBusinessData = (callback) => {
+  db.transaction((tx) => {
+    tx.executeSql('SELECT * FROM business;', [], (_, { rows }) => {
+      const businessData = rows._array;
+      callback(businessData);
+    });
+  });
 };
 
 export const searchCustomersByName = (searchName, callback) => {
@@ -33,4 +50,18 @@ export const searchCustomersByName = (searchName, callback) => {
     });
   };
 
-// You can add more functions here for querying or updating the database
+  export const addBusinessData = (customerId, itemName, count, totalAmount) => {
+    const date = new Date().toISOString().slice(0, 10);
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          'INSERT INTO business (customerId, itemName, count, totalAmount, date) VALUES (?, ?, ?, ?, ?);',
+          [customerId, itemName, count, totalAmount, date]
+        );
+      },
+      null,
+      () => console.log('Business saved successfully..!')
+    );
+  };
+  
+
