@@ -9,9 +9,10 @@ const PrinterScreen = ({navigation}) => {
     const [text, onChangeText] = React.useState('');
     const [qty, onChangeQty] = React.useState('');
     const [price, onChangePrice] = React.useState('');
-    const [payment, onTodayPayment] = React.useState('');
+    const [payment, onTodayPayment] = React.useState(0);
+    const [totalBalance, setTotalAmount] = React.useState(0);
     const [searchResults, setSearchResults] = React.useState([]);
-    const [currentBalanceValue, setBalance] = React.useState('0.0');
+    const [currentBalanceValue, setBalance] = React.useState(0);
     const [currentCustomer, setCurrentCustomer] = React.useState('');
     const [selectedItem, setItemName] = React.useState('');
     const [copyButtonColor, setButtonColorOne] = React.useState('#f5cd79');
@@ -58,9 +59,20 @@ const PrinterScreen = ({navigation}) => {
       const itemName = selectedItem;
       const count = qty;
       const totalAmount = qty*price;
-      //const date = new date; // Replace with actual date (formatted as 'YYYY-MM-DD')
       addBusinessData(customerId, itemName, count, totalAmount);
-      alert("A set created..! ")
+
+      onChangeQty('');
+      onChangePrice('');
+      setButtonColorTwo('#f5cd79');
+      setButtonColorOne('#f5cd79');
+      setItemName('');
+
+      const todayBill = todayBill+totalAmount
+
+      setTotalAmount(currentBalanceValue+totalAmount+payment);
+      todayPayment(payment+totalAmount);
+
+      alert("Saved ..! ")
     }
 
     const fetchBusinessData = () => {
@@ -70,7 +82,6 @@ const PrinterScreen = ({navigation}) => {
     };
 
     const setBalanceToField = (name,balance,id) => {
-      alert(`Selected customer: ${name}`);
       setCurrentCustomer(id);
       setBalance(balance)
     }
@@ -165,10 +176,10 @@ const PrinterScreen = ({navigation}) => {
         <Text style={styles.balance}>{currentBalanceValue}</Text>
 
         <Text style={styles.textThree}>Today Bill</Text>
-        <Text style={styles.balance}>00.00</Text>
+        <Text style={styles.balance}>{payment}</Text>
 
         <Text style={styles.textThree}>Total Amount</Text>
-        <Text style={styles.balance}>00.00</Text>
+        <Text style={styles.balance}>{totalBalance}</Text>
         </View>
 
         <TextInput
