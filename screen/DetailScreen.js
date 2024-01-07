@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { addCustomer } from './Database';
 
 const DetailScreen = ({navigation}) => {
 
@@ -10,9 +11,13 @@ const DetailScreen = ({navigation}) => {
         //Implement code here to search customer by name
       };
 
-      const addCustomer = () => {
+      const saveCustomer = () => {
+        const customerName = text;
+        const initialBalance = 0.1;
 
-        alert("Save Customer..! ")
+        addCustomer(customerName, initialBalance);
+        alert("Customer saved!");
+        onChangeText('');
       }
 
 
@@ -31,7 +36,7 @@ const DetailScreen = ({navigation}) => {
 
         <TouchableOpacity
         style={styles.addCustomerBtn}
-        onPress={addCustomer}
+        onPress={saveCustomer}
         >
         <Text style={styles.processBtnText}>Save Customer</Text>
         </TouchableOpacity>

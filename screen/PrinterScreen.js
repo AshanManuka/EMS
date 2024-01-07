@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Alert, Button, TouchableOpacity } from 'react-native'
+import { searchCustomersByName } from './Database';
+import { StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
 
@@ -7,6 +8,7 @@ const PrinterScreen = ({navigation}) => {
     const [qty, onChangeQty] = React.useState('');
     const [price, onChangePrice] = React.useState('');
     const [payment, onTodayPayment] = React.useState('');
+    const [searchResults, setSearchResults] = React.useState([]);
 
 
     const handleTextChange = (inputText) => {
@@ -31,8 +33,17 @@ const PrinterScreen = ({navigation}) => {
 
     const searchCustomer = () => {
       if (text !== '') {
-        alert(`Input value: ${text}`);
-        //search customer
+        searchCustomersByName(text, (results) => {
+          if (results.length > 0) {
+            // Process the search results here
+            console.log('Search results:', results);
+            // Update state or perform actions based on search results
+            // For example, set the search results in state to display in the UI
+            setSearchResults(results);
+          } else {
+            alert('No matching customers found.');
+          }
+        }); 
       } else {
         alert('Please enter a value to search.');
       }
@@ -68,7 +79,21 @@ const PrinterScreen = ({navigation}) => {
         <Text style={styles.buttonText}>Search</Text>
       </TouchableOpacity> 
 
-    <View></View>
+    {/* Display search results */}
+    <View style={styles.searchResultsContainer}>
+        {searchResults.map((result) => (
+          <TouchableOpacity
+            key={result.id}
+            style={styles.searchResultItem}
+            onPress={() => {
+              // Handle navigation or action when a result is selected
+              alert(`Selected customer: ${result.name}`);
+            }}
+          >
+            <Text style={styles.searchResultText}>{result.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
     <TouchableOpacity
         style={styles.photocopySelectBtn}
@@ -305,14 +330,30 @@ const styles= StyleSheet.create({
       },
       customerBtn:{
         backgroundColor:'#ff7675',
-        marginTop:'15%',
+        marginTop:'5%', //change again
         marginBottom:'5%',
         paddingLeft:'30%',
         paddingRight:'30%',
         paddingTop:'1%',
         paddingBottom:'2%',
         borderRadius:3
-      }
+      },
+      searchResultsContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+      },
+      searchResultItem: {
+        backgroundColor: '#3498db',
+        padding: 10,
+        marginVertical: 5,
+        borderRadius: 5,
+        width: '80%',
+      },
+      searchResultText: {
+        color: '#fff',
+        fontSize: 18,
+        textAlign: 'center',
+      },
           
   })
     
