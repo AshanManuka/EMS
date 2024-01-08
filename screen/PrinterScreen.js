@@ -9,8 +9,9 @@ const PrinterScreen = ({navigation}) => {
     const [text, onChangeText] = React.useState('');
     const [qty, onChangeQty] = React.useState('');
     const [price, onChangePrice] = React.useState('');
-    const [payment, onTodayPayment] = React.useState(0);
+    const [payment, onTodayPayment] = React.useState('');
     const [totalBalance, setTotalAmount] = React.useState(0);
+    const [todayTotal, setTodayTotal] = React.useState(0);
     const [searchResults, setSearchResults] = React.useState([]);
     const [currentBalanceValue, setBalance] = React.useState(0);
     const [currentCustomer, setCurrentCustomer] = React.useState('');
@@ -67,10 +68,8 @@ const PrinterScreen = ({navigation}) => {
       setButtonColorOne('#f5cd79');
       setItemName('');
 
-      const todayBill = todayBill+totalAmount
-
+      setTodayTotal(totalAmount+payment);
       setTotalAmount(currentBalanceValue+totalAmount+payment);
-      todayPayment(payment+totalAmount);
 
       alert("Saved ..! ")
     }
@@ -176,7 +175,7 @@ const PrinterScreen = ({navigation}) => {
         <Text style={styles.balance}>{currentBalanceValue}</Text>
 
         <Text style={styles.textThree}>Today Bill</Text>
-        <Text style={styles.balance}>{payment}</Text>
+        <Text style={styles.balance}>{todayTotal}</Text>
 
         <Text style={styles.textThree}>Total Amount</Text>
         <Text style={styles.balance}>{totalBalance}</Text>
