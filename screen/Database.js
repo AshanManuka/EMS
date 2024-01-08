@@ -24,9 +24,20 @@ export const addCustomer = (name,balance) => {
         tx.executeSql("INSERT INTO customers (name, balance) VALUES (?, ?);", [name, balance]);
     },
     null,
-    () => console.log("Customer added successfully") // Handle success
+    () => console.log("Customer added successfully")
   );
 };
+
+export const updateBalance = (id, balance) => {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("UPDATE customers SET balance=? WHERE id=?;", [balance, id]);
+    },
+    null,
+    () => console.log("Customer updated successfully")
+  );
+};
+
 
 export const getAllBusinessData = (callback) => {
   db.transaction((tx) => {

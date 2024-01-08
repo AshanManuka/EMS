@@ -1,8 +1,6 @@
 import React from 'react';
-import { searchCustomersByName } from './Database';
-import { addBusinessData } from './Database';
-import { getAllBusinessData } from './Database';
-import { StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native'
+import { searchCustomersByName, addBusinessData, getAllBusinessData, updateBalance } from './Database';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
 
@@ -68,10 +66,23 @@ const PrinterScreen = ({navigation}) => {
       setButtonColorOne('#f5cd79');
       setItemName('');
 
-      setTodayTotal(totalAmount+payment);
-      setTotalAmount(currentBalanceValue+totalAmount+payment);
+      setTodayTotal(totalAmount+todayTotal);
+      setTotalAmount(currentBalanceValue+totalAmount+todayTotal);
 
       alert("Saved ..! ")
+    }
+
+    const saveCustomerBalance = () => {
+      const availableBlance = totalBalance - payment;
+      updateBalance(currentCustomer, availableBlance);
+
+      setTodayTotal(0);
+      setTotalAmount(0);
+      setBalance(0);
+      onTodayPayment('');
+      onChangeText('');
+
+      alert("Successfully Save ..!");
     }
 
     const fetchBusinessData = () => {
@@ -199,7 +210,7 @@ const PrinterScreen = ({navigation}) => {
 
       <TouchableOpacity
         style={styles.confirmBtn}
-        onPress={fetchBusinessData}
+        onPress={saveCustomerBalance}
       >
         <Text style={styles.processBtnText}>Done</Text>
       </TouchableOpacity>
