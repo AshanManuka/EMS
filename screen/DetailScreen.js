@@ -1,15 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { addCustomer } from './Database';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { addCustomer, searchCustomersByName } from './Database';
 
 const DetailScreen = ({navigation}) => {
 
     const [text, onChangeText] = React.useState('');
+    const [customerName, setCustomername] = React.useState('');
+    const [searchResults, setSearchResults] = React.useState([]);
+    const [currentBalanceValue, setBalance] = React.useState(0);
+    const [currentCustomer, setCurrentCustomer] = React.useState('');
 
     const handleTextChange = (inputText) => {
-        onChangeText(inputText); // Update the state with the typed text
-        //Implement code here to search customer by name
+        onChangeText(inputText);
       };
+
+      const customerNameChange = (inputText) => {
+        setCustomername(inputText);
+      }
 
       const saveCustomer = () => {
         const customerName = text;
@@ -18,6 +25,27 @@ const DetailScreen = ({navigation}) => {
         addCustomer(customerName, initialBalance);
         alert("Customer saved!");
         onChangeText('');
+      }
+
+      const searchCustomer = () => {
+        if (customerName !== '') {
+          searchCustomersByName(customerName, (results) => {
+            if (results.length > 0) {
+              console.log('Search results:', results);
+              setSearchResults(results);
+            } else {
+              alert('No matching customers found.');
+            }
+          }); 
+        } else {
+          alert('Please enter a value to search.');
+        }
+      };
+
+      const setBalanceToField = (name,balance,id) => {
+        setCurrentCustomer(id);
+        setBalance(balance)
+        alert(name);
       }
 
 
@@ -47,14 +75,34 @@ const DetailScreen = ({navigation}) => {
 
         <TextInput
         style={styles.inputTwo}
-        onChangeText={handleTextChange}
-        value={text}
+        onChangeText={customerNameChange}
+        value={customerName}
         />
+
+        <TouchableOpacity
+        style={styles.addCustomerBtn}
+        onPress={searchCustomer}
+        >
+        <Text style={styles.processBtnText}>Search Customer</Text>
+        </TouchableOpacity>
+
+        {/* Display search results */}
+        <ScrollView style={styles.searchResultsContainer}>
+        {searchResults.map((result) => (
+          <TouchableOpacity
+            key={result.id}
+            style={styles.searchResultItem}
+            onPress={() => {setBalanceToField(result.name,result.balance,result.id)}}
+          >
+            <Text style={styles.searchResultText}>{result.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
 
         <View style={styles.substage}>
         <Text style={styles.textThree}>Current Balance</Text>
-        <Text style={styles.balance}>00.00</Text>
+        <Text style={styles.balance}>{currentBalanceValue}</Text>
 
         </View>
 
@@ -114,7 +162,7 @@ const styles = StyleSheet.create({
     line:{
         color:'#7f8c8d',
         fontSize:10,
-        marginTop:'20%'
+        marginTop:'10%'
     },
     textTwo:{
         color:'#fff',
@@ -140,7 +188,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#182C61',
       borderRadius:15,
       padding:'5%',
-      marginTop:'15%'
+      marginTop:'75%'
     },
     textThree:{
         color: '#dfe4ea',
@@ -155,6 +203,25 @@ const styles = StyleSheet.create({
         fontSize:25,
         marginLeft:'55%',
         marginTop:'-10%'
+    },
+    searchResultsContainer: {
+      position:'absolute',
+      marginTop: '110%',
+      height:'20%',
+      width:'85%',
+    },
+    searchResultItem: {
+      backgroundColor: '#3498db',
+      padding: 8,
+      marginVertical: 2,
+      marginRight: 2,
+      borderRadius: 5,
+      
+    },
+    searchResultText: {
+      color: '#fff',
+      fontSize: 18,
+      textAlign: 'center',
     },
 
 })

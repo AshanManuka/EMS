@@ -5,9 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screen/HomeScreen';
 import DetailScreen from './screen/DetailScreen';
+import business from './screen/BusinessScreen';
 import PrinterScreen from './screen/PrinterScreen';
 import { setupDatabase } from './screen/Database';
 import { setupBusinessTable } from './screen/Database';
+import BusinessScreen from './screen/BusinessScreen';
 
 const stack = createNativeStackNavigator();
 
@@ -33,6 +35,10 @@ export default function App() {
         <stack.Screen
           name= 'Printers' options={{headerShown: false}}
           component={PrinterScreen}
+        />
+        <stack.Screen
+          name= 'business' options={{headerShown: false}}
+          component={BusinessScreen}
         />
         
       </stack.Navigator>

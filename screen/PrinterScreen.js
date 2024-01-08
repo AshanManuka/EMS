@@ -1,6 +1,6 @@
 import React from 'react';
 import { searchCustomersByName, addBusinessData, getAllBusinessData, updateBalance } from './Database';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
 
@@ -132,7 +132,7 @@ const PrinterScreen = ({navigation}) => {
       </TouchableOpacity> 
 
     {/* Display search results */}
-    <View style={styles.searchResultsContainer}>
+    <ScrollView horizontal={true} style={styles.searchResultsContainer}>
         {searchResults.map((result) => (
           <TouchableOpacity
             key={result.id}
@@ -142,7 +142,7 @@ const PrinterScreen = ({navigation}) => {
             <Text style={styles.searchResultText}>{result.name}</Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
 
     <TouchableOpacity
         style={[styles.photocopySelectBtn, { backgroundColor: copyButtonColor }]}
@@ -391,7 +391,7 @@ const styles= StyleSheet.create({
         position:'absolute',
         marginTop: '40%',
         flexDirection: 'row',
-        alignItems: 'center',
+        //alignItems: 'center',
         width:'99%',
       },
       searchResultItem: {
