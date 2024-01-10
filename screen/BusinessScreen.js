@@ -33,17 +33,11 @@ const BusinessScreen = ({navigation}) => {
             key={result.id}
             style={styles.searchResultItem}
           >
-            <Text style={styles.searchResultText}>{result.customerName}</Text>
-            <Text style={styles.searchResultText}>{result.date}</Text>
-            <Text style={styles.searchResultText}>{result.itemName}</Text>
-            <Text style={styles.searchResultText}>{result.totalAmount}</Text>
-            {/* <TouchableOpacity
-            key={result.customerId}
-            style={styles.searchResultItem}
-            onPress={() => {editBusinessDetails()}}
-          >
-            <Text style={styles.searchResultText}>Edit</Text>
-          </TouchableOpacity> */}
+            <Text style={styles.searchResultTextOne}>{result.customerName}</Text>
+            <Text style={styles.searchResultTextOne}>{result.date}</Text>
+            <Text style={styles.searchResultTextTwo}>{result.itemName} :{result.count}</Text>
+            <Text style={styles.searchResultTextOne}>{result.totalAmount}</Text>
+            
           
           </View>
         ))}      
@@ -62,21 +56,27 @@ const styles= StyleSheet.create({
     },
     btnSec:{
       backgroundColor: '#3c6382',
-      width:'95%',
+      width:'100%',
       alignSelf:'center',
       marginTop:'20%'
     },
     searchResultItem:{
       backgroundColor:'#2d3436',
       borderColor:'#fff',
-      marginBottom:'1%',
+      marginBottom:'0.5%',
       flexDirection: 'row',
     },
-    searchResultText:{
+    searchResultTextOne:{
       color:'#fff',
       fontWeight:'bold',
       padding:5,
-      width:'28%'
+      width:'25%'
+    },
+    searchResultTextTwo:{
+      color:'#fff',
+      fontWeight:'bold',
+      padding:5,
+      width:'34%'
     }
       
     

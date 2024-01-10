@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { addCustomer, searchCustomersByName } from './Database';
+import { addCustomer, searchCustomersByName, updateBalance } from './Database';
 
 const DetailScreen = ({navigation}) => {
 
@@ -9,9 +9,15 @@ const DetailScreen = ({navigation}) => {
     const [searchResults, setSearchResults] = React.useState([]);
     const [currentBalanceValue, setBalance] = React.useState(0);
     const [currentCustomer, setCurrentCustomer] = React.useState('');
+    const [payment, onTodayPayment] = React.useState('');
 
     const handleTextChange = (inputText) => {
         onChangeText(inputText);
+      };
+
+      const todayPayment = (inputText) => {
+        onTodayPayment(inputText); // Update the state with the typed text
+        //Implement code here to search customer by name
       };
 
       const customerNameChange = (inputText) => {
@@ -25,6 +31,14 @@ const DetailScreen = ({navigation}) => {
         addCustomer(customerName, initialBalance);
         alert("Customer saved!");
         onChangeText('');
+      }
+
+      const setPayment = () => {
+        const newBalance = currentBalanceValue - payment;
+        updateBalance(currentCustomer, newBalance);
+
+        onTodayPayment('');
+        setBalance(0)
       }
 
       const searchCustomer = () => {
@@ -87,7 +101,7 @@ const DetailScreen = ({navigation}) => {
         </TouchableOpacity>
 
         {/* Display search results */}
-        <ScrollView style={styles.searchResultsContainer}>
+        <ScrollView horizontal={true} style={styles.searchResultsContainer}>
         {searchResults.map((result) => (
           <TouchableOpacity
             key={result.id}
@@ -106,10 +120,20 @@ const DetailScreen = ({navigation}) => {
 
         </View>
 
+        <TextInput
+        style={styles.inputPayment}
+        placeholder='Payment'
+        onChangeText={todayPayment}
+        value={payment}
+        keyboardType='numeric'
+      />
 
-
-
-
+        <TouchableOpacity
+        style={styles.paymentBtn}
+        onPress={setPayment}
+        >
+        <Text style={styles.payedBtnText}>Payed</Text>
+        </TouchableOpacity>
 
     </View>
     )
@@ -159,6 +183,20 @@ const styles = StyleSheet.create({
         marginTop:'6%',
         marginLeft:'40%'
     },
+    paymentBtn:{
+      backgroundColor:'#1abc9c',
+        paddingLeft:'20%',
+        paddingRight:'20%',
+        paddingTop:'2%',
+        paddingBottom:'2%',
+        borderRadius:2,
+        marginTop:'6%',
+ 
+    },
+    payedBtnText:{
+      fontWeight:'bold'
+
+    },
     line:{
         color:'#7f8c8d',
         fontSize:10,
@@ -188,7 +226,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#182C61',
       borderRadius:15,
       padding:'5%',
-      marginTop:'65%'
+      marginTop:'40%'
     },
     textThree:{
         color: '#dfe4ea',
@@ -207,21 +245,34 @@ const styles = StyleSheet.create({
     searchResultsContainer: {
       position:'absolute',
       marginTop: '110%',
-      height:'20%',
+      height:'5%',
       width:'85%',
+      flexDirection: 'row',
     },
     searchResultItem: {
       backgroundColor: '#3498db',
-      padding: 8,
-      marginVertical: 2,
-      marginRight: 2,
-      borderRadius: 5,
-      
+        padding: 10,
+        marginVertical: 5,
+        marginRight: 2,
+        borderRadius: 5,
+        height:'45%'
     },
     searchResultText: {
       color: '#fff',
       fontSize: 18,
       textAlign: 'center',
+    },
+    inputPayment:{
+      height: 40,
+      width:'60%',
+      borderWidth: 1,
+      marginTop:'5%',
+      borderTopColor:'#0a3d62',
+      borderLeftColor:'#0a3d62',
+      borderRightColor:'#0a3d62',
+      borderBottomColor:'#fff',
+      color:'#fff',
+      fontSize:18,
     },
 
 })

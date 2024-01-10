@@ -14,7 +14,7 @@ const PrinterScreen = ({navigation}) => {
     const [currentBalanceValue, setBalance] = React.useState(0);
     const [currentCustomer, setCurrentCustomer] = React.useState('');
     const [currentCustomerName, setCurrentCustomerName] = React.useState('');
-    const [selectedItem, setItemName] = React.useState('Not Select');
+    const [selectedItem, setItemName] = React.useState('Not-Select');
     const [copyButtonColor, setButtonColorOne] = React.useState('#f5cd79');
     const [printButtonColor, setButtonColorTwo] = React.useState('#f5cd79');
 
