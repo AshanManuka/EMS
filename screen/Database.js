@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("enet.db");
+const db = SQLite.openDatabase("sample.db");
 
 export const setupDatabase = () => {
   db.transaction((tx) => {
@@ -18,6 +18,14 @@ export const setupBusinessTable = () => {
   });
 };
 
+export const setupItemTable = () => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      'CREATE TABLE IF NOT EXISTS item (id INTEGER PRIMARY KEY AUTOINCREMENT, itemName TEXT, description TEXT, qty INTEGER, price REAL);'
+    );
+  });
+};
+
 export const addCustomer = (name,balance) => {
   db.transaction(
     (tx) => {
@@ -25,6 +33,18 @@ export const addCustomer = (name,balance) => {
     },
     null,
     () => console.log("Customer added successfully")
+  );
+};
+
+export const addItem = (name,description,qty,unitPrice) => {
+  console.log("indata");
+  console.log(name,description,qty,unitPrice);
+  db.transaction(
+    (tx) => {
+        tx.executeSql("INSERT INTO item (itemName, description, qty, price) VALUES (?, ?, ?, ?);", [name,description,qty,unitPrice]);
+    },
+    null,
+    () => console.log("Item added successfully")
   );
 };
 
@@ -52,6 +72,19 @@ export const searchCustomersByName = (searchName, callback) => {
     db.transaction((tx) => {
       tx.executeSql(
         'SELECT * FROM customers WHERE name LIKE ?;',
+        [`%${searchName}%`],
+        (_, { rows }) => {
+          const result = rows._array;
+          callback(result);
+        }
+      );
+    });
+  };
+
+  export const searchItemByName = (searchName, callback) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM item WHERE itemName LIKE ?;',
         [`%${searchName}%`],
         (_, { rows }) => {
           const result = rows._array;

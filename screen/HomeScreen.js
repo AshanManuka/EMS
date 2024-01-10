@@ -18,7 +18,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
         onPress={() => navigation.navigate('selling')}>
-        <Text style={styles.btnText}>Business</Text>  
+        <Text style={styles.btnText}>Items</Text>  
         </Pressable>
         </View>
 
