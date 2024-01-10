@@ -1,17 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Button, Alert } from 'react-native';
-import { addItem, searchItemByName } from './Database';
+import { addItem, searchItemByName, updateItemInDatabase } from './Database';
 
 const SellScreen = ({navigation}) => {
 
 
 
     const [text, onChangeText] = React.useState('');
+    const [selectedId, setSelectedId] = React.useState(0);
     const [itemDescription, setItemDescription] = React.useState('');
     const [unitPrice, setUnitPrice] = React.useState('');
     const [quantity, setQuantity] = React.useState('');
     const [itemName, setItemName] = React.useState('');
     const [searchResults, setSearchResults] = React.useState([]);
+    const [saveItemDisabled, setSaveItemDisabled] = React.useState(false);
+    const [updateItemDisabled, setUpateItemDisabled] = React.useState(true);
 
 
   const handleTextChange = (inputText) => {
@@ -40,7 +43,6 @@ const SellScreen = ({navigation}) => {
     const iPrice = unitPrice;
     const iQty = quantity;
 
-    console.log(iName,iDesc,iPrice,iQty);
     addItem(iName,iDesc,iQty,iPrice);
 
     alert("Item Saved Succesfully..!");
@@ -54,6 +56,11 @@ const SellScreen = ({navigation}) => {
 
   
   const searchItem = () => {
+
+    setSaveItemDisabled(true);
+    setUpateItemDisabled(false);
+
+
     if (itemName !== '') {
         searchItemByName(itemName, (results) => {
           if (results.length > 0) {
@@ -69,13 +76,21 @@ const SellScreen = ({navigation}) => {
 
   }
 
-  const setDataToField =(itemName,description,qty,unitPrice) => {
+  const setDataToField =(id,itemName,description,qty,unitPrice) => {
     onChangeText(itemName);
     setItemDescription(description),
     setUnitPrice(String(qty))
     setQuantity(String(unitPrice))
+    setSelectedId(id)
 
   }
+
+  const handleUpdate = () => {
+    updateItemInDatabase(selectedId, text, itemDescription, unitPrice, quantity);
+    
+    alert("Updated Successfully..!");
+  };
+  
 
 
 
@@ -94,7 +109,7 @@ const SellScreen = ({navigation}) => {
 
 
             <TouchableOpacity
-            style={styles.addCustomerBtn}
+            style={styles.searchItemBtn}
             onPress={searchItem}
             >
             <Text style={styles.processBtnText}>Search Item</Text>
@@ -139,8 +154,17 @@ const SellScreen = ({navigation}) => {
             <TouchableOpacity
             style={styles.addCustomerBtn}
             onPress={saveItem}
+            disabled={saveItemDisabled}
             >
             <Text style={styles.processBtnText}>Save Item</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+            style={styles.updateItemBtn}
+            onPress={handleUpdate}
+            disabled={updateItemDisabled}
+            >
+            <Text style={styles.processBtnText}>Update Item</Text>
             </TouchableOpacity>
 
             <Text style={styles.line}>__________________________________________</Text>
@@ -152,7 +176,7 @@ const SellScreen = ({navigation}) => {
             <TouchableOpacity
                 key={results.id}
                 style={styles.searchResultItem}
-                onPress={() => {setDataToField(results.itemName,results.description,results.qty,results.price)}}
+                onPress={() => {setDataToField(results.id,results.itemName,results.description,results.qty,results.price)}}
             >
                 <Text style={styles.searchResultText}>{results.itemName}</Text>
             </TouchableOpacity>
@@ -266,12 +290,33 @@ const styles= StyleSheet.create({
     },
     addCustomerBtn:{
         backgroundColor:'#1abc9c',
+        paddingLeft:'10%',
+        paddingRight:'10%',
+        paddingTop:'2%',
+        paddingBottom:'2%',
+        borderRadius:2,
+        marginTop:'6%',
+        marginLeft:'-40%'
+        
+    },
+    searchItemBtn:{
+        backgroundColor:'#1abc9c',
         paddingLeft:'30%',
         paddingRight:'30%',
         paddingTop:'2%',
         paddingBottom:'2%',
         borderRadius:2,
         marginTop:'6%',
+    },
+    updateItemBtn:{
+        backgroundColor:'#ff9f43',
+        paddingLeft:'10%',
+        paddingRight:'10%',
+        paddingTop:'2%',
+        paddingBottom:'2%',
+        borderRadius:2,
+        marginLeft:'40%',
+        marginTop:'-9%'
         
     },
     line:{

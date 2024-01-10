@@ -58,6 +58,17 @@ export const updateBalance = (id, balance) => {
   );
 };
 
+export const updateItemInDatabase = (id, name, description, qty, unitPrice) => {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("UPDATE item SET itemName=?, description=?, qty=?, price=? WHERE id=?;", [name, description, qty, unitPrice, id]);
+    },
+    null,
+    () => console.log("Item updated successfully")
+  );
+};
+
+
 
 export const getAllBusinessData = (callback) => {
   db.transaction((tx) => {
