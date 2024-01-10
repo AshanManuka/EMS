@@ -58,7 +58,7 @@ const styles= StyleSheet.create({
       backgroundColor: '#3c6382',
       width:'100%',
       alignSelf:'center',
-      marginTop:'20%'
+      marginTop:'15%'
     },
     searchResultItem:{
       backgroundColor:'#2d3436',

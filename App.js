@@ -9,6 +9,7 @@ import PrinterScreen from './screen/PrinterScreen';
 import { setupDatabase } from './screen/Database';
 import { setupBusinessTable } from './screen/Database';
 import BusinessScreen from './screen/BusinessScreen';
+import SellScreen from './screen/SellScreen';
 
 const stack = createNativeStackNavigator();
 
@@ -26,6 +27,10 @@ export default function App() {
         <stack.Screen
           name= 'Home' options={{headerShown: false}}
           component={HomeScreen}
+        />
+        <stack.Screen
+          name= 'selling' options={{headerShown: false}}
+          component={SellScreen}
         />
         <stack.Screen
           name= 'Details' options={{headerShown: false}}

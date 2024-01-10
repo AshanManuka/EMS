@@ -17,6 +17,13 @@ const HomeScreen = ({navigation}) => {
 
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
+        onPress={() => navigation.navigate('selling')}>
+        <Text style={styles.btnText}>Business</Text>  
+        </Pressable>
+        </View>
+
+        <View style={styles.btnSec}>
+        <Pressable style={styles.button}
         onPress={() => navigation.navigate('Details')}>
         <Text style={styles.btnText}>Customers</Text>
         </Pressable>
@@ -25,14 +32,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
         onPress={() => navigation.navigate('business')}>
-        <Text style={styles.btnText}>Business</Text>  
-        </Pressable>
-        </View>
-
-        <View style={styles.btnSec}>
-        <Pressable style={styles.button}
-        onPress={() => Alert.alert('Under Development..!')}>
-        <Text style={styles.btnText}>Settings</Text>  
+        <Text style={styles.btnText}>Logs</Text>  
         </Pressable>
         </View>
 

@@ -122,6 +122,7 @@ const DetailScreen = ({navigation}) => {
 
         <TextInput
         style={styles.inputPayment}
+        keyboardAppearance="light"
         placeholder='Payment'
         onChangeText={todayPayment}
         value={payment}
