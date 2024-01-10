@@ -1,16 +1,53 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable } from 'react-native';
-
+import { useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Button, Alert } from 'react-native';
+import { getAllBusinessData, searchCustomerNameById  } from './Database';
 
 const BusinessScreen = ({navigation}) => {
 
+
+
+  const [searchResults, setSearchResults] = React.useState([]);
+
+
+  const searchBusiness = () => {
+      getAllBusinessData((results) => {
+        if (results.length > 0) {
+          console.log('Search results:', results);
+          setSearchResults(results);
+        } else {
+          alert('No business found.');
+        }
+      }); 
+   };
+
+
+   useEffect(() => {
+    searchBusiness();
+  }, []);
+
     return(
-        <View style={styles.btnSec}>
-        <Pressable style={styles.button}
-        onPress={() => navigation.navigate('Printers')}>
-        <Text style={styles.btnText}>Back to Home</Text>  
-        </Pressable>
-        </View>
+        <ScrollView style={styles.btnSec}>
+          {searchResults.map((result) => (
+          <View horizontal={true}
+            key={result.id}
+            style={styles.searchResultItem}
+          >
+            <Text style={styles.searchResultText}>{result.customerName}</Text>
+            <Text style={styles.searchResultText}>{result.date}</Text>
+            <Text style={styles.searchResultText}>{result.itemName}</Text>
+            <Text style={styles.searchResultText}>{result.totalAmount}</Text>
+            {/* <TouchableOpacity
+            key={result.customerId}
+            style={styles.searchResultItem}
+            onPress={() => {editBusinessDetails()}}
+          >
+            <Text style={styles.searchResultText}>Edit</Text>
+          </TouchableOpacity> */}
+          
+          </View>
+        ))}      
+        </ScrollView>
     )
 
 
@@ -19,29 +56,28 @@ export default BusinessScreen
 
 const styles= StyleSheet.create({
     body : {
-      backgroundColor: '#0a3d62',
+      backgroundColor: '#3c6382',
       alignItems: 'center',
       flex:1
     },
     btnSec:{
       backgroundColor: '#3c6382',
-      width:'85%',
-      height:'15%',
-      margin: '3%',
-      marginTop:'50%'
+      width:'95%',
+      alignSelf:'center',
+      marginTop:'20%'
     },
-    button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 8,
-      height:'100%',
-      backgroundColor: '#487eb0',
+    searchResultItem:{
+      backgroundColor:'#2d3436',
+      borderColor:'#fff',
+      marginBottom:'1%',
+      flexDirection: 'row',
     },
-    btnText:{
-      color: '#dcdde1',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 30,
-      fontWeight: 'bold'
-    },
+    searchResultText:{
+      color:'#fff',
+      fontWeight:'bold',
+      padding:5,
+      width:'28%'
+    }
+      
+    
   })

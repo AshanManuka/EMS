@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screen/HomeScreen';
 import DetailScreen from './screen/DetailScreen';
-import business from './screen/BusinessScreen';
 import PrinterScreen from './screen/PrinterScreen';
 import { setupDatabase } from './screen/Database';
 import { setupBusinessTable } from './screen/Database';
@@ -16,7 +15,7 @@ const stack = createNativeStackNavigator();
 export default function App() {
 
   useEffect(() => {
-    setupDatabase(); // Initialize the database
+    setupDatabase();
     setupBusinessTable();
   }, []);
 

@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#182C61',
       borderRadius:15,
       padding:'5%',
-      marginTop:'75%'
+      marginTop:'65%'
     },
     textThree:{
         color: '#dfe4ea',

@@ -13,7 +13,8 @@ const PrinterScreen = ({navigation}) => {
     const [searchResults, setSearchResults] = React.useState([]);
     const [currentBalanceValue, setBalance] = React.useState(0);
     const [currentCustomer, setCurrentCustomer] = React.useState('');
-    const [selectedItem, setItemName] = React.useState('');
+    const [currentCustomerName, setCurrentCustomerName] = React.useState('');
+    const [selectedItem, setItemName] = React.useState('Not Select');
     const [copyButtonColor, setButtonColorOne] = React.useState('#f5cd79');
     const [printButtonColor, setButtonColorTwo] = React.useState('#f5cd79');
 
@@ -55,10 +56,14 @@ const PrinterScreen = ({navigation}) => {
 
     const makeBusiness = () => {
       const customerId = currentCustomer;
+      const customerName = currentCustomerName;
       const itemName = selectedItem;
       const count = qty;
       const totalAmount = qty*price;
-      addBusinessData(customerId, itemName, count, totalAmount);
+
+      console.log("Data before save..");
+      console.log(customerId,customerName,itemName,count,totalAmount);
+      addBusinessData(customerId, customerName, itemName, count, totalAmount);
 
       onChangeQty('');
       onChangePrice('');
@@ -93,6 +98,7 @@ const PrinterScreen = ({navigation}) => {
 
     const setBalanceToField = (name,balance,id) => {
       setCurrentCustomer(id);
+      setCurrentCustomerName(name)
       setBalance(balance)
     }
 
@@ -203,7 +209,7 @@ const PrinterScreen = ({navigation}) => {
 
         <TouchableOpacity
         style={styles.newBtn}
-        onPress={makeBusiness}
+        onPress={fetchBusinessData}
       >
         <Text style={styles.processBtnText}>+ Items</Text>
       </TouchableOpacity>
