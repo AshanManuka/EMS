@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { searchCustomersByName, searchItemByName, addBusinessData } from './Database';
+import { searchCustomersByName, searchItemByName, addBusinessData, updateBalance } from './Database';
 
 const SellItemScreen = ({navigation}) => {
 
@@ -9,10 +9,14 @@ const SellItemScreen = ({navigation}) => {
     const [searchResults, setSearchResults] = React.useState([]);
     const [itemName, setItemName] = React.useState('');
     const [searchItemResults, setSearchItemResults] = React.useState([]);
+    const [totalBalance, setTotalBalance] = React.useState(0);
     const [qty, onChangeQty] = React.useState('');
-    const [selectedList, setSelectedList] = React.useState([]);
+    const [totalBill, onChangeTotal] = React.useState(0);
+    const [payment, onChangePayment] = React.useState(0);
+    const [selectedItems, setSelectedItems] = React.useState([]);
     const [unitPrice, setUnitPrice] = React.useState('');
     const [selectedId, setSelectedId] = React.useState(0);
+    const [showAdditionalFields, setShowAdditionalFields] = React.useState(false);
 
 
     
@@ -53,7 +57,8 @@ const SellItemScreen = ({navigation}) => {
 
     const setBalanceToField = (name,balance,id) => {
         setCurrentCustomer(id);
-        setCustomername(name)
+        setCustomername(name);
+        setTotalBalance(balance);
       }
 
     const changeItemName = (inputText) => {
@@ -75,7 +80,8 @@ const SellItemScreen = ({navigation}) => {
             total : qty*unitPrice 
         }
 
-        setSelectedList(selectedItem);
+        setSelectedItems([...selectedItems, selectedItem]);
+        
 
       const customerId = currentCustomer;
       const cusName = customerName;
@@ -83,9 +89,14 @@ const SellItemScreen = ({navigation}) => {
       const count = qty;
       const totalAmount = qty*unitPrice;
 
-      addBusinessData(customerId,cusName,iName,count,totalAmount);
 
-      console.log(selectedList);
+      const todaySub =totalBill+totalAmount;
+      onChangeTotal(todaySub);
+    
+      addBusinessData(customerId,cusName,iName,count,totalAmount);
+      setTotalBalance(totalBalance+totalBill);
+
+      setShowAdditionalFields(true);
 
       }
 
@@ -93,6 +104,23 @@ const SellItemScreen = ({navigation}) => {
         onChangeQty(inputText)
         //Implement code here to search customer by name
       };
+
+      const totalCal = (inputText) => {
+        onChangeTotal(inputText)
+      }
+
+      const setPayment = (inputText) => {
+        onChangePayment(inputText)
+      }
+
+      const updateBalanceOfCustomer = () => {
+        const availableBlance = totalBalance - payment;
+        updateBalance(currentCustomer, availableBlance);
+
+        alert("Done..!");
+        //clear fields
+
+      }
 
     return (
     <View style={styles.body}>
@@ -170,10 +198,88 @@ const SellItemScreen = ({navigation}) => {
                 <Text style={styles.searchResultText}>+</Text>
             </TouchableOpacity>
 
-        
 
+            {selectedItems.length > 0 && (
+            <ScrollView style={styles.selectedItemsContainer}>
+                <View horizontal={true}
+              style={styles.resultItem}>
+
+               <Text style={styles.resultTextOne}>ItemId</Text>
+              <Text style={styles.resultTextTwo}>Item Name</Text>
+              <Text style={styles.resultTextOne}>Count</Text>
+              <Text style={styles.resultTextOne}>Total</Text>
+              </View>
+            {selectedItems.map((result) => (
+            <View horizontal={true}
+              key={result.id}
+              style={styles.resultItem}
+            >
+              <Text style={styles.resultTextOne}>{result.itemId}</Text>
+              <Text style={styles.resultTextTwo}>{result.name}</Text>
+              <Text style={styles.resultTextOne}>{result.count}</Text>
+              <Text style={styles.resultTextOne}>{result.total}</Text>
+              
             
-        
+            </View>
+          ))}      
+          </ScrollView>
+        )} 
+
+
+            {/* <TextInput
+                    style={styles.totalLbl}
+                    placeholder='Total'
+                    onChangeTotal={totalCal}
+                    value={totalBill.toString()}
+                    keyboardType='numeric'
+                />
+
+            <TextInput
+                    style={styles.paymentLbl}
+                    placeholder='Payment'
+                    onChangePayment={setPayment}
+                    value={payment}
+                    keyboardType='numeric'
+                />
+
+            <TouchableOpacity
+                style={styles.doneBtn}
+                onPress={() => {updateBalanceOfCustomer()}}
+            >
+                <Text style={styles.searchResultText}>Done</Text>
+            </TouchableOpacity> */}
+
+{showAdditionalFields && (
+        <>
+          <TextInput
+            style={styles.totalLbl}
+            placeholder="Total"
+            onChangeText={totalCal}
+            value={totalBill.toString()}
+            keyboardType="numeric"
+          />
+
+          <TextInput
+            style={styles.paymentLbl}
+            placeholder="Payment"
+            onChangeText={setPayment}
+            value={payment}
+            keyboardType="numeric"
+          />
+
+          <TouchableOpacity
+            style={styles.doneBtn}
+            onPress={() => {
+              updateBalanceOfCustomer();
+            }}
+          >
+            <Text style={styles.searchResultText}>Done</Text>
+          </TouchableOpacity>
+        </>
+      )}
+
+
+
 
      </View>
 
@@ -318,6 +424,62 @@ const styles= StyleSheet.create({
         borderBottomColor:'#fff',
         color:'#fff',
         fontSize:18,
+      },
+      selectedItemsContainer: {
+        marginTop: 20,
+        maxHeight: 220, // Set a height to limit the scrollable area
+      },
+      resultItem:{
+        backgroundColor:'#2d3436',
+        borderColor:'#fff',
+        flexDirection: 'row',
+        marginTop:'0.5%'
+      },
+      resultTextOne:{
+        color:'#fff',
+        fontWeight:'bold',
+        padding:5,
+        width:'20%'
+      },
+      resultTextTwo:{
+        color:'#fff',
+        fontWeight:'bold',
+        padding:5,
+        width:'30%'
+      },
+      totalLbl:{
+        height: 40,
+        width:'30%',
+        borderWidth: 2,
+        marginTop:'2%',
+        marginLeft:'-60%',
+        borderTopColor:'#0a3d62',
+        borderLeftColor:'#0a3d62',
+        borderRightColor:'#0a3d62',
+        borderBottomColor:'#fff',
+        color:'#fff',
+        fontSize:18,
+      },
+      paymentLbl:{
+        height: 40,
+        width:'30%',
+        borderWidth: 2,
+        marginTop:'-10%',
+        marginLeft:'10%',
+        borderTopColor:'#0a3d62',
+        borderLeftColor:'#0a3d62',
+        borderRightColor:'#0a3d62',
+        borderBottomColor:'#fff',
+        color:'#fff',
+        fontSize:18,
+      },
+      doneBtn:{
+        backgroundColor: '#00b894',
+          padding: 10,
+          borderRadius: 5,
+          marginTop:'-8%',
+          marginLeft:'75%'
+
       },
 
   })
