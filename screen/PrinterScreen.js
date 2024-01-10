@@ -61,8 +61,6 @@ const PrinterScreen = ({navigation}) => {
       const count = qty;
       const totalAmount = qty*price;
 
-      console.log("Data before save..");
-      console.log(customerId,customerName,itemName,count,totalAmount);
       addBusinessData(customerId, customerName, itemName, count, totalAmount);
 
       onChangeQty('');

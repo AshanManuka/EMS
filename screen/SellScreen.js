@@ -90,14 +90,11 @@ const SellScreen = ({navigation}) => {
     
     alert("Updated Successfully..!");
   };
-  
-
-
 
     return(
 
         <View style={styles.container}>
-            <Text style={styles.mainText}>Items</Text>
+            <Text style={styles.mainText}>Manage Items</Text>
 
             <Text style={styles.searchText}>Search Item :</Text>
 
@@ -106,7 +103,6 @@ const SellScreen = ({navigation}) => {
             onChangeText={changeItemName}
             value={itemName}
             />
-
 
             <TouchableOpacity
             style={styles.searchItemBtn}
@@ -133,7 +129,7 @@ const SellScreen = ({navigation}) => {
             value={itemDescription}
             />
 
-            <Text style={styles.textTwo}>Quantity :</Text>
+            <Text style={styles.textTwo}>Unit Price :</Text>
 
             <TextInput
             style={styles.inputTwo}
@@ -142,7 +138,7 @@ const SellScreen = ({navigation}) => {
             keyboardType='numeric'
             />
 
-            <Text style={styles.textTwo}>Unit Price :</Text>
+            <Text style={styles.textTwo}>Quantity :</Text>
 
             <TextInput
             style={styles.inputTwo}
@@ -201,19 +197,13 @@ const styles= StyleSheet.create({
         width:'80%',
         marginTop:'2%',
         marginBottom:'5%'
-    
-
-
     },
     searchResultItem:{
         backgroundColor: '#3498db',
-        padding: 6,
+        padding: 10,
         marginVertical: 2,
         marginRight: 2,
         borderRadius: 5,
-        height:'15%'
-
-
     },
     searchResultText:{
       color: '#fff',
@@ -225,8 +215,9 @@ const styles= StyleSheet.create({
         fontSize:30,
         color:'#fff',
         fontWeight:'bold',
-        marginTop:'15%',
-        marginBottom:'20%'
+        marginTop:'10%',
+        marginBottom:'20%',
+        marginLeft:'-35%'
     },
     searchText:{
         color:'#fff',
@@ -322,7 +313,7 @@ const styles= StyleSheet.create({
     line:{
         color:'#7f8c8d',
         fontSize:12,
-        marginTop:'5%'
+        marginTop:'2%'
     },
     lineOne:{
         color:'#7f8c8d',

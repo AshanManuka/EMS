@@ -10,6 +10,7 @@ import { setupDatabase } from './screen/Database';
 import { setupBusinessTable, setupItemTable } from './screen/Database';
 import BusinessScreen from './screen/BusinessScreen';
 import SellScreen from './screen/SellScreen';
+import SellItemScreen from './screen/SellItemScreen';
 
 const stack = createNativeStackNavigator();
 
@@ -44,6 +45,10 @@ export default function App() {
         <stack.Screen
           name= 'business' options={{headerShown: false}}
           component={BusinessScreen}
+        />
+        <stack.Screen
+          name= 'sellItem' options={{headerShown: false}}
+          component={SellItemScreen}
         />
         
       </stack.Navigator>

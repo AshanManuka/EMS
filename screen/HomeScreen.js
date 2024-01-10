@@ -17,8 +17,15 @@ const HomeScreen = ({navigation}) => {
 
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
+        onPress={() => navigation.navigate('sellItem')}>
+        <Text style={styles.btnText}>Business</Text>  
+        </Pressable>
+        </View>
+
+        <View style={styles.btnSec}>
+        <Pressable style={styles.button}
         onPress={() => navigation.navigate('selling')}>
-        <Text style={styles.btnText}>Items</Text>  
+        <Text style={styles.btnText}>Manage Items</Text>  
         </Pressable>
         </View>
 
@@ -54,16 +61,16 @@ const styles= StyleSheet.create({
     },
     textOne:{
       color: '#dfe4ea',
-      marginTop: '20%',
-      marginBottom:'10%',
+      marginTop: '10%',
+      marginBottom:'8%',
       fontSize: 20,
       fontWeight: 'bold'
     },
     btnSec:{
       backgroundColor: '#3c6382',
       width:'85%',
-      height:'15%',
-      margin: '3%'
+      height:'14%',
+      margin: '2%'
     },
     button: {
       alignItems: 'center',

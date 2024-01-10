@@ -59,14 +59,13 @@ const DetailScreen = ({navigation}) => {
       const setBalanceToField = (name,balance,id) => {
         setCurrentCustomer(id);
         setBalance(balance)
-        alert(name);
       }
 
 
     return (
     <View style={styles.container}>
 
-        <Text style={styles.mainText}>Customers</Text>
+        <Text style={styles.mainText}>Manage Customers</Text>
 
         <Text style={styles.textOne}>Add Customer :</Text>
 
@@ -152,7 +151,8 @@ const styles = StyleSheet.create({
         color:'#fff',
         fontWeight:'bold',
         marginTop:'15%',
-        marginBottom:'20%'
+        marginBottom:'20%',
+        marginLeft:'-20%'
     },
     textOne:{
         color:'#fff',
