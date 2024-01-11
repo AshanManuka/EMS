@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Pressable, Alert } from 'react-native'
 
 const HomeScreen = ({navigation}) => {
 
+
     return (
         
 
@@ -16,15 +17,23 @@ const HomeScreen = ({navigation}) => {
         </View>
 
         <View style={styles.btnSec}>
-        <Pressable style={styles.button}
-        onPress={() => navigation.navigate('sellItem')}>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate('sellItem', {
+            selectItems: [], // Pass the initial value or an empty array
+            currentCustomerName: '',
+            currentCustomerId: 0,
+            currentBalanceValue: 0,
+            todayTotal: 0,
+          })}
+        >
         <Text style={styles.btnText}>Business</Text>  
         </Pressable>
         </View>
 
         <View style={styles.btnSec}>
         <Pressable style={styles.button}
-        onPress={() => navigation.navigate('sellItem', {selectedItems, selectedCustomers})}>
+        onPress={() => navigation.navigate('selling')}>
         <Text style={styles.btnText}>Manage Items</Text>  
         </Pressable>
         </View>

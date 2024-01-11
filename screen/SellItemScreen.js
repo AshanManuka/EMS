@@ -7,31 +7,34 @@ const SellItemScreen = ({ navigation, route }) => {
 
 
     const [customerName, setCustomername] = React.useState('');
-    const [currentCustomer, setCurrentCustomer] = React.useState(0);
+    const [currentCustomer, setCurrentCustomer] = React.useState('');
     const [searchResults, setSearchResults] = React.useState([]);
     const [itemName, setItemName] = React.useState('');
-    const [availableCount, setAvailableCount] = React.useState(0);
+    const [availableCount, setAvailableCount] = React.useState('');
     const [searchItemResults, setSearchItemResults] = React.useState([]);
-    const [totalBalance, setTotalBalance] = React.useState(0);
-    const [currentBalance, setCurrentBalance] = React.useState(0);
-    const [qty, onChangeQty] = React.useState(0);
-    const [totalBill, onChangeTotal] = React.useState(0);
-    const [payment, onChangePayment] = React.useState(0);
+    const [totalBalance, setTotalBalance] = React.useState('');
+    const [currentBalance, setCurrentBalance] = React.useState('');
+    const [qty, onChangeQty] = React.useState('');
+    const [totalBill, onChangeTotal] = React.useState('');
+    const [payment, onChangePayment] = React.useState('');
     const [selectedItems, setSelectedItems] = React.useState(selectItems || []);
-    const [unitPrice, setUnitPrice] = React.useState(0);
-    const [selectedId, setSelectedId] = React.useState(0);
+    const [unitPrice, setUnitPrice] = React.useState('');
+    const [selectedId, setSelectedId] = React.useState('');
     const [showAdditionalFields, setShowAdditionalFields] = React.useState(false);
 
 
     useEffect(() => {
-      // console.log(selectedCustomerName,
-      //   selectedCustomer,
-      //   currentBalanceValue,    
-      //   todayTotal);
-      onChangeTotal(totalBill+todayTotal);
-      setCustomername(currentCustomerName);
-      setCurrentCustomer(currentCustomerId);
-      setCurrentBalance(currentBalanceValue);
+      if(todayTotal != null && currentCustomer != null && currentCustomerId != null && currentBalanceValue!= null){
+        onChangeTotal(totalBill+todayTotal);
+        setCustomername(currentCustomerName);
+        setCurrentCustomer(currentCustomerId);
+        setCurrentBalance(currentBalanceValue);        
+      }else{
+        console.log("okkkkkkkkkkk");
+
+      }
+
+
 
     }, [route.params]);
     
@@ -107,7 +110,7 @@ const SellItemScreen = ({ navigation, route }) => {
       const totalAmount = qty*unitPrice;
 
 
-      const todaySub =totalBill+totalAmount;
+      const todaySub = Number(totalBill) + totalAmount;
       onChangeTotal(todaySub);
       setTotalBalance(currentBalance+todaySub);   
       addBusinessData(customerId,cusName,iName,count,totalAmount);
@@ -250,30 +253,6 @@ const SellItemScreen = ({ navigation, route }) => {
           </ScrollView>
         )} 
 
-
-            {/* <TextInput
-                    style={styles.totalLbl}
-                    placeholder='Total'
-                    onChangeTotal={totalCal}
-                    value={totalBill.toString()}
-                    keyboardType='numeric'
-                />
-
-            <TextInput
-                    style={styles.paymentLbl}
-                    placeholder='Payment'
-                    onChangePayment={setPayment}
-                    value={payment}
-                    keyboardType='numeric'
-                />
-
-            <TouchableOpacity
-                style={styles.doneBtn}
-                onPress={() => {updateBalanceOfCustomer()}}
-            >
-                <Text style={styles.searchResultText}>Done</Text>
-            </TouchableOpacity> */}
-
 {showAdditionalFields && (
         <>
           <TextInput
@@ -302,8 +281,6 @@ const SellItemScreen = ({ navigation, route }) => {
           </TouchableOpacity>
         </>
       )}
-
-
 
 
      </View>
