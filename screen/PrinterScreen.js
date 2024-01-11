@@ -17,6 +17,8 @@ const PrinterScreen = ({navigation}) => {
     const [selectedItem, setItemName] = React.useState('Not-Select');
     const [copyButtonColor, setButtonColorOne] = React.useState('#f5cd79');
     const [printButtonColor, setButtonColorTwo] = React.useState('#f5cd79');
+    const [selectedItems, setSelectedItems] = React.useState([]);
+  
 
 
     const handleTextChange = (inputText) => {
@@ -63,6 +65,23 @@ const PrinterScreen = ({navigation}) => {
 
       addBusinessData(customerId, customerName, itemName, count, totalAmount);
 
+      const selectedItemm = {
+        itemId : currentCustomer,
+        name : selectedItem,
+        count : qty,
+        price : price,
+        total : qty*price 
+    }
+
+    const updatedCustomer = {
+      cusId: currentCustomer,
+      cusName:currentCustomerName,
+      cusOldBalance:currentBalanceValue,
+      cusToday:todayTotal 
+    }
+
+    setSelectedItems([...selectedItems, selectedItemm]);
+
       onChangeQty('');
       onChangePrice('');
       setButtonColorTwo('#f5cd79');
@@ -108,6 +127,17 @@ const PrinterScreen = ({navigation}) => {
     const selectedCopyBtn = () => {
       setButtonColorOne('#227093');
       setItemName('Photo-Copy');
+    }
+
+    const goToBusiness = () => {  
+      const currentCustomerId = currentCustomer;
+      navigation.navigate('sellItem', {
+        selectItems: selectedItems,
+        currentCustomerName,
+        currentCustomerId,
+        currentBalanceValue,    
+        todayTotal
+      });
     }
 
     return (
@@ -207,7 +237,7 @@ const PrinterScreen = ({navigation}) => {
 
         <TouchableOpacity
         style={styles.newBtn}
-        onPress={fetchBusinessData}
+        onPress={goToBusiness}
       >
         <Text style={styles.processBtnText}>+ Items</Text>
       </TouchableOpacity>

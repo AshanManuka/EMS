@@ -1,24 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { searchCustomersByName, searchItemByName, addBusinessData, updateBalance } from './Database';
+import { searchCustomersByName, searchItemByName, addBusinessData, updateBalance, updateItemCount } from './Database';
 
-const SellItemScreen = ({navigation}) => {
+const SellItemScreen = ({ navigation, route }) => {
+  const { selectItems, currentCustomerName, currentCustomerId, currentBalanceValue, todayTotal } = route.params;
+
 
     const [customerName, setCustomername] = React.useState('');
     const [currentCustomer, setCurrentCustomer] = React.useState(0);
     const [searchResults, setSearchResults] = React.useState([]);
     const [itemName, setItemName] = React.useState('');
+    const [availableCount, setAvailableCount] = React.useState(0);
     const [searchItemResults, setSearchItemResults] = React.useState([]);
     const [totalBalance, setTotalBalance] = React.useState(0);
-    const [qty, onChangeQty] = React.useState('');
+    const [currentBalance, setCurrentBalance] = React.useState(0);
+    const [qty, onChangeQty] = React.useState(0);
     const [totalBill, onChangeTotal] = React.useState(0);
     const [payment, onChangePayment] = React.useState(0);
-    const [selectedItems, setSelectedItems] = React.useState([]);
-    const [unitPrice, setUnitPrice] = React.useState('');
+    const [selectedItems, setSelectedItems] = React.useState(selectItems || []);
+    const [unitPrice, setUnitPrice] = React.useState(0);
     const [selectedId, setSelectedId] = React.useState(0);
     const [showAdditionalFields, setShowAdditionalFields] = React.useState(false);
 
 
+    useEffect(() => {
+      // console.log(selectedCustomerName,
+      //   selectedCustomer,
+      //   currentBalanceValue,    
+      //   todayTotal);
+      onChangeTotal(totalBill+todayTotal);
+      setCustomername(currentCustomerName);
+      setCurrentCustomer(currentCustomerId);
+      setCurrentBalance(currentBalanceValue);
+
+    }, [route.params]);
+    
     
     const customerNameChange = (inputText) => {
         setCustomername(inputText);
@@ -58,7 +74,7 @@ const SellItemScreen = ({navigation}) => {
     const setBalanceToField = (name,balance,id) => {
         setCurrentCustomer(id);
         setCustomername(name);
-        setTotalBalance(balance);
+        setCurrentBalance(balance);
       }
 
     const changeItemName = (inputText) => {
@@ -66,9 +82,10 @@ const SellItemScreen = ({navigation}) => {
     };
 
     const setDataToField =(id,itemName,description,qty,price) => {
-        setItemName(itemName)
-        setUnitPrice(price)
-        setSelectedId(id) 
+        setItemName(itemName);
+        setUnitPrice(price);
+        setSelectedId(id);
+        setAvailableCount(qty); 
       }
 
       const addToList = () => {
@@ -92,10 +109,9 @@ const SellItemScreen = ({navigation}) => {
 
       const todaySub =totalBill+totalAmount;
       onChangeTotal(todaySub);
-    
+      setTotalBalance(currentBalance+todaySub);   
       addBusinessData(customerId,cusName,iName,count,totalAmount);
-      setTotalBalance(totalBalance+totalBill);
-
+      updateItemCount(selectedId,availableCount-qty);
       setShowAdditionalFields(true);
 
       }
@@ -115,10 +131,19 @@ const SellItemScreen = ({navigation}) => {
 
       const updateBalanceOfCustomer = () => {
         const availableBlance = totalBalance - payment;
+        console.log(totalBalance, payment);
         updateBalance(currentCustomer, availableBlance);
 
-        alert("Done..!");
-        //clear fields
+        // alert("Business Completed Successfully..!");
+        setCustomername('');
+        setItemName('');
+        onChangeTotal(0);
+        onChangePayment(0);
+        setShowAdditionalFields(false);
+        //call function for printout
+        setSelectedItems([]);
+        navigation.navigate('Home');
+        
 
       }
 
@@ -182,7 +207,7 @@ const SellItemScreen = ({navigation}) => {
             ))}
         </ScrollView>
 
-        <Text style={styles.selectedName}>Name: {itemName}</Text>
+        <Text style={styles.selectedName}>{itemName}</Text>
         <TextInput
         style={styles.inputQty}
         placeholder='Count'

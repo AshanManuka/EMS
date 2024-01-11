@@ -59,6 +59,7 @@ const DetailScreen = ({navigation}) => {
       const setBalanceToField = (name,balance,id) => {
         setCurrentCustomer(id);
         setBalance(balance)
+        setCustomername(name);
       }
 
 

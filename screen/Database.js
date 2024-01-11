@@ -68,6 +68,16 @@ export const updateItemInDatabase = (id, name, description, qty, unitPrice) => {
   );
 };
 
+export const updateItemCount = (id, qty) => {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("UPDATE item SET qty=? WHERE id=?;", [qty, id]);
+    },
+    null,
+    () => console.log("Item updated successfully")
+  );
+};
+
 
 
 export const getAllBusinessData = (callback) => {
