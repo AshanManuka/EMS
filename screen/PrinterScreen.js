@@ -15,8 +15,15 @@ const PrinterScreen = ({navigation}) => {
     const [currentCustomer, setCurrentCustomer] = React.useState('');
     const [currentCustomerName, setCurrentCustomerName] = React.useState('');
     const [selectedItem, setItemName] = React.useState('Not-Select');
-    const [copyButtonColor, setButtonColorOne] = React.useState('#f5cd79');
-    const [printButtonColor, setButtonColorTwo] = React.useState('#f5cd79');
+    const [selectedPage, setSelectedPage] = React.useState('Not-Select');
+    const [buttonOne, setButtonColorOne] = React.useState('#f5cd79');
+    const [buttonTwo, setButtonColorTwo] = React.useState('#f5cd79');
+    const [buttonThree, setButtonColorThree] = React.useState('#f5cd79');
+    const [buttonFour, setButtonColorFour] = React.useState('#f5cd79');
+    const [buttonFive, setButtonColorFive] = React.useState('#f5cd79');
+    const [buttonSix, setButtonColorSix] = React.useState('#f5cd79');
+    const [buttonSeven, setButtonColorSeven] = React.useState('#f5cd79');
+    const [buttonEight, setButtonColorEight] = React.useState('#f5cd79');
     const [selectedItems, setSelectedItems] = React.useState([]);
   
 
@@ -107,11 +114,6 @@ const PrinterScreen = ({navigation}) => {
       alert("Successfully Save ..!");
     }
 
-    const fetchBusinessData = () => {
-      getAllBusinessData((businessData) => {
-        console.log(businessData);
-      });
-    };
 
     const setBalanceToField = (name,balance,id) => {
       setCurrentCustomer(id);
@@ -119,14 +121,60 @@ const PrinterScreen = ({navigation}) => {
       setBalance(balance)
     }
 
-    const selectedPrintBtn = () => {
-      setButtonColorTwo('#227093');
-      setItemName('Print-Out');
+    const selectedItemBtn = (name) => {
+      setItemName(name);
+      if(name == "PhotoCopy"){
+        setButtonColorOne('#079992');
+        setButtonColorTwo('#f5cd79');
+        setButtonColorThree('#f5cd79');
+        setButtonColorFour('#f5cd79');
+        setButtonColorFive('#f5cd79');
+        setButtonColorSix('#f5cd79');
+      }
+      if(name == "PrintOut(BW)"){
+        setButtonColorTwo('#079992');
+        setButtonColorOne('#f5cd79');
+        setButtonColorThree('#f5cd79');
+        setButtonColorFour('#f5cd79');
+        setButtonColorFive('#f5cd79');
+        setButtonColorSix('#f5cd79');
+    }
+      if(name == "PrintOut(color)"){
+        setButtonColorThree('#079992');
+        setButtonColorTwo('#f5cd79');
+        setButtonColorOne('#f5cd79');
+        setButtonColorFour('#f5cd79');
+        setButtonColorFive('#f5cd79');
+        setButtonColorSix('#f5cd79');
+      }
+      if(name == "Laminating"){
+        setButtonColorFour('#079992');
+        setButtonColorThree('#f5cd79');
+        setButtonColorTwo('#f5cd79');
+        setButtonColorOne('#f5cd79');
+        setButtonColorFive('#f5cd79');
+        setButtonColorSix('#f5cd79');
+      }
+      if(name == "CoverPage"){
+        setButtonColorFive('#079992');
+        setButtonColorThree('#f5cd79');
+        setButtonColorTwo('#f5cd79');
+        setButtonColorOne('#f5cd79');
+        setButtonColorFour('#f5cd79');
+        setButtonColorSix('#f5cd79');
+      }
+      if(name == "Scan"){
+        setButtonColorSix('#079992');
+        setButtonColorThree('#f5cd79');
+        setButtonColorTwo('#f5cd79');
+        setButtonColorOne('#f5cd79');
+        setButtonColorFour('#f5cd79');
+        setButtonColorFive('#f5cd79');
+      }
     }
 
-    const selectedCopyBtn = () => {
-      setButtonColorOne('#227093');
-      setItemName('Photo-Copy');
+    const selectedPageType = (page) => {
+      setSelectedPage(page);
     }
 
     const goToBusiness = () => {  
@@ -179,17 +227,59 @@ const PrinterScreen = ({navigation}) => {
       </ScrollView>
 
     <TouchableOpacity
-        style={[styles.photocopySelectBtn, { backgroundColor: copyButtonColor }]}
-        onPress={selectedCopyBtn}
+        style={[styles.photocopySelectBtn, { backgroundColor: buttonOne }]}
+        onPress={() =>{selectedItemBtn("PhotoCopy")}}
       >
-        <Text style={styles.commonBtnText}>PhotoCopy</Text>
+        <Text style={styles.commonBtnText}>PCopy</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.printoutSelectBtn, { backgroundColor: printButtonColor }]}
-        onPress={selectedPrintBtn}
+        style={[styles.bwPrintoutSelectBtn, { backgroundColor: buttonTwo }]}
+        onPress={() =>{selectedItemBtn("PrintOut(BW)")}}
       >
-        <Text style={styles.commonBtnText}>PrintOut</Text>
+        <Text style={styles.commonBtnText}>bwPrint</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.colorprintoutSelectBtn, { backgroundColor: buttonThree }]}
+        onPress={() =>{selectedItemBtn("PrintOut(color)")}}
+      >
+        <Text style={styles.commonBtnText}>coPrint</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.laminateSelectBtn, { backgroundColor: buttonFour }]}
+        onPress={() =>{selectedItemBtn("Laminating")}}
+      >
+        <Text style={styles.commonBtnText}>Lamint</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.coverPageSelectBtn, { backgroundColor: buttonFive }]}
+        onPress={() =>{selectedItemBtn("CoverPage")}}
+      >
+        <Text style={styles.commonBtnText}>CvrPage</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.photoPrintSelectBtn, { backgroundColor: buttonSix }]}
+        onPress={() =>{selectedItemBtn("Scan")}}
+      >
+        <Text style={styles.commonBtnText}>Scan</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.a4SelectBtn, { backgroundColor: buttonSeven }]}
+        onPress={() =>{selectedPageType("A4")}}
+      >
+        <Text style={styles.commonBtnText}>A4</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.a3SelectBtn, { backgroundColor: buttonEight }]}
+        onPress={() =>{selectedPageType("A3")}}
+      >
+        <Text style={styles.commonBtnText}>A3</Text>
       </TouchableOpacity>
 
       <TextInput
@@ -360,18 +450,59 @@ const styles= StyleSheet.create({
       },
       photocopySelectBtn:{
         backgroundColor:'#f5cd79',
-        paddingLeft:'11%',
-        paddingRight:'11%',
-        marginTop:'30%',
-        marginLeft:'-45%'
-
+        paddingLeft:'5%',
+        paddingRight:'5%',
+        marginTop:'25%',
+        marginLeft:'-65%'
       },
-      printoutSelectBtn:{
+      bwPrintoutSelectBtn:{
+        backgroundColor:'#f5cd79',
+        paddingLeft:'4%',
+        paddingRight:'4%',
+        marginTop:'-7.25%',
+        marginLeft:'-8%'
+      },
+      colorprintoutSelectBtn:{
+        backgroundColor:'#f5cd79',
+        paddingLeft:'4%',
+        paddingRight:'4%',
+        marginTop:'-7.25%',
+        marginLeft:'48%'
+      },
+      laminateSelectBtn:{
+        backgroundColor:'#f5cd79',
+        paddingLeft:'5%',
+        paddingRight:'5%',
+        marginTop:'2%',
+        marginLeft:'-65%'
+      },
+      coverPageSelectBtn:{
+        backgroundColor:'#f5cd79',
+        paddingLeft:'3%',
+        paddingRight:'3%',
+        marginTop:'-7.25%',
+        marginLeft:'-8%'
+      },
+      photoPrintSelectBtn:{
+        backgroundColor:'#f5cd79',
+        paddingLeft:'7%',
+        paddingRight:'7%',
+        marginTop:'-7.25%',
+        marginLeft:'48%'
+      },
+      a4SelectBtn:{
+        backgroundColor:'#f5cd79',
+        paddingLeft:'12%',
+        paddingRight:'12%',
+        marginTop:'2%',
+        marginLeft:'-45%'
+      },
+      a3SelectBtn:{
         backgroundColor:'#f5cd79',
         paddingLeft:'12%',
         paddingRight:'12%',
         marginTop:'-7.25%',
-        marginLeft:'50%'
+        marginLeft:'20%'
       },
       commonBtnText:{
         fontSize:20,
