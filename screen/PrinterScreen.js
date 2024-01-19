@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { searchCustomersByName, addBusinessData, getAllBusinessData, updateBalance } from './Database';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 
@@ -11,6 +11,7 @@ const PrinterScreen = ({navigation}) => {
     const [totalBalance, setTotalAmount] = React.useState(0);
     const [todayTotal, setTodayTotal] = React.useState(0);
     const [searchResults, setSearchResults] = React.useState([]);
+    const [itemList, setItemList] = React.useState([]);
     const [currentBalanceValue, setBalance] = React.useState(0);
     const [currentCustomer, setCurrentCustomer] = React.useState('');
     const [currentCustomerName, setCurrentCustomerName] = React.useState('');
@@ -25,6 +26,12 @@ const PrinterScreen = ({navigation}) => {
     const [buttonSeven, setButtonColorSeven] = React.useState('#f5cd79');
     const [buttonEight, setButtonColorEight] = React.useState('#f5cd79');
     const [selectedItems, setSelectedItems] = React.useState([]);
+    const [showAdditionalFields, setShowAdditionalFields] = React.useState(false);
+
+    useEffect(() => {
+      setItemList([{id:1,name:"PhotoPrint"},{id:2,name:"Email"},{id:3,name:"TypeBinding"},{id:4,name:"WelloBinding"}]);
+
+    }, []);
   
 
 
@@ -171,10 +178,20 @@ const PrinterScreen = ({navigation}) => {
         setButtonColorFour('#f5cd79');
         setButtonColorFive('#f5cd79');
       }
+
+      if(name == "Cancel"){
+        setShowAdditionalFields(false);
+      }
+
+      console.log(name);
     }
 
     const selectedPageType = (page) => {
       setSelectedPage(page);
+    }
+
+    const openDropDown = () => {
+      setShowAdditionalFields(true);
     }
 
     const goToBusiness = () => {  
@@ -225,6 +242,7 @@ const PrinterScreen = ({navigation}) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+
 
     <TouchableOpacity
         style={[styles.photocopySelectBtn, { backgroundColor: buttonOne }]}
@@ -281,6 +299,37 @@ const PrinterScreen = ({navigation}) => {
       >
         <Text style={styles.commonBtnText}>A3</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.dropDownBtn, { backgroundColor: buttonEight }]}
+        onPress={openDropDown}
+      >
+        <Text style={styles.commonBtnText}>+</Text>
+      </TouchableOpacity>
+
+  {showAdditionalFields && (
+      <>
+      <View style={styles.abstractView}>
+          {itemList.map((result) => (
+          <TouchableOpacity
+            key={result.id}
+            style={styles.abstractBtn}
+            onPress={() => {selectedItemBtn(result.name)}}
+          >
+            <Text style={styles.commonBtnText}>{result.name}</Text>
+          </TouchableOpacity>
+          ))}
+
+        <TouchableOpacity
+        style={[styles.cancelBtn]}
+        onPress={() =>{selectedItemBtn("Cancel")}}
+      >
+        <Text style={styles.commonBtnText}>Cancel</Text>
+      </TouchableOpacity>
+
+      </View>
+      </>
+  )}
 
       <TextInput
         style={styles.inputQty}
@@ -503,6 +552,37 @@ const styles= StyleSheet.create({
         paddingRight:'12%',
         marginTop:'-7.25%',
         marginLeft:'20%'
+      },
+      cancelBtn:{
+        backgroundColor:'#c0392b',
+        paddingLeft:'5%',
+        paddingRight:'5%',
+        marginTop:'-30%',
+        marginLeft:'60%'
+      },
+      abstractBtn:{
+        backgroundColor:'#f5cd79',
+        paddingLeft:'5%',
+        paddingRight:'5%',
+        borderColor:'black',
+        marginBottom:'0.5%',
+        width:'45%',
+        marginLeft:'-20%'
+      },
+      abstractView:{
+        position:'absolute',
+        backgroundColor:'#0a3d62',
+        width:'95%',
+        height:'15%',
+        alignItems:'center',
+        marginTop:'55%'
+      },
+      dropDownBtn:{
+        backgroundColor:'#f5cd79',
+        paddingLeft:'3%',
+        paddingRight:'3%',
+        marginTop:'-7.25%',
+        marginLeft:'65%'
       },
       commonBtnText:{
         fontSize:20,
