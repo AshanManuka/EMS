@@ -73,7 +73,7 @@ const PrinterScreen = ({navigation}) => {
     const makeBusiness = () => {
       const customerId = currentCustomer;
       const customerName = currentCustomerName;
-      const itemName = selectedItem;
+      const itemName = selectedItem+''+selectedPage;
       const count = qty;
       const totalAmount = qty*price;
 
@@ -124,8 +124,9 @@ const PrinterScreen = ({navigation}) => {
 
     const setBalanceToField = (name,balance,id) => {
       setCurrentCustomer(id);
-      setCurrentCustomerName(name)
-      setBalance(balance)
+      setCurrentCustomerName(name);
+      setBalance(balance);
+       onChangeText(name);
     }
 
     const selectedItemBtn = (name) => {
