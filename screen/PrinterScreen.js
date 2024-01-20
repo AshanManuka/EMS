@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { searchCustomersByName, addBusinessData, getAllBusinessData, updateBalance } from './Database';
+import { searchCustomersByName, saveBusiness, getAllBusinessData, updateBalance } from './Database';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
@@ -77,11 +77,11 @@ const PrinterScreen = ({navigation}) => {
       const count = qty;
       const totalAmount = qty*price;
 
-      addBusinessData(customerId, customerName, itemName, count, totalAmount);
+       //addBusinessData(customerId, customerName, itemName, count, totalAmount);
 
       const selectedItemm = {
         itemId : currentCustomer,
-        name : selectedItem,
+        name : selectedItem+' '+selectedPage,
         count : qty,
         price : price,
         total : qty*price 
@@ -105,12 +105,23 @@ const PrinterScreen = ({navigation}) => {
       setTodayTotal(totalAmount+todayTotal);
       setTotalAmount(currentBalanceValue+totalAmount+todayTotal);
 
-      alert("Saved ..! ")
+        setButtonColorOne('#f5cd79');
+        setButtonColorTwo('#f5cd79');
+        setButtonColorThree('#f5cd79');
+        setButtonColorFour('#f5cd79');
+        setButtonColorFive('#f5cd79');
+        setButtonColorSix('#f5cd79');
+     
     }
 
     const saveCustomerBalance = () => {
-      const availableBlance = totalBalance - payment;
-      updateBalance(currentCustomer, availableBlance);
+      //const availableBlance = totalBalance - payment;
+      //updateBalance(currentCustomer, availableBlance) 
+
+      //update user by totalBlance
+      const newArray = selectedItems.map(({ name, count, total }) => ({ name, count, total }));
+      saveBusiness(currentCustomer, currentCustomerName, newArray);
+
 
       setTodayTotal(0);
       setTotalAmount(0);

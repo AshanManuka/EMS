@@ -142,5 +142,28 @@ export const searchCustomersByName = (searchName, callback) => {
       () => console.log('Business saved successfully..!')
     );
   };
+
+
+  export const saveBusiness = (customerId, customerName, selectedItem) => {
+    if (!Array.isArray(selectedItem)) {
+      console.error('Invalid selectedItem:', selectedItem);
+      return;
+    }
+  
+    const date = new Date().toISOString().slice(0, 10);
+    db.transaction(
+      (tx) => {
+        selectedItem.forEach((element) => {
+          tx.executeSql(
+            'INSERT INTO business (customerid, customerName, itemName, count, totalAmount, date) VALUES (?, ?, ?, ?, ?, ?)',
+            [customerId, customerName, element.name, element.count, element.total, date]
+          );
+        });
+      },
+      null,
+      () => console.log('Business saved successfully..!')
+    );
+  };
+  
   
 

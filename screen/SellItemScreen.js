@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { searchCustomersByName, searchItemByName, addBusinessData, updateBalance, updateItemCount } from './Database';
+import { searchCustomersByName, searchItemByName, saveBusiness, updateBalance, updateItemCount } from './Database';
 
 const SellItemScreen = ({ navigation, route }) => {
   const { selectItems, currentCustomerName, currentCustomerId, currentBalanceValue, todayTotal } = route.params;
@@ -113,7 +113,7 @@ const SellItemScreen = ({ navigation, route }) => {
       const todaySub = Number(totalBill) + totalAmount;
       onChangeTotal(todaySub);
       setTotalBalance(currentBalance+todaySub);   
-      addBusinessData(customerId,cusName,iName,count,totalAmount);
+      //addBusinessData(customerId,cusName,iName,count,totalAmount);
       updateItemCount(selectedId,availableCount-qty);
       setShowAdditionalFields(true);
 
@@ -133,6 +133,11 @@ const SellItemScreen = ({ navigation, route }) => {
       }
 
       const updateBalanceOfCustomer = () => {
+
+
+      const newArray = selectedItems.map(({ name, count, total }) => ({ name, count, total }));
+      saveBusiness(currentCustomer, currentCustomerName, newArray);
+
         const availableBlance = totalBalance - payment;
         console.log(totalBalance, payment);
         updateBalance(currentCustomer, availableBlance);
