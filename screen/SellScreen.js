@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Keyboard, TouchableWithoutFeedback, Pressable, Button, Alert } from 'react-native';
 import { addItem, searchItemByName, updateItemInDatabase } from './Database';
 
 const SellScreen = ({navigation}) => {
@@ -19,6 +19,10 @@ const SellScreen = ({navigation}) => {
 
   const handleTextChange = (inputText) => {
     onChangeText(inputText);
+  };
+
+  const handleBackgroundPress = () => {
+    Keyboard.dismiss();
   };
 
   const changeItemName = (inputText) => {
@@ -93,6 +97,7 @@ const SellScreen = ({navigation}) => {
 
     return(
 
+      <TouchableWithoutFeedback onPress={handleBackgroundPress}>
         <View style={styles.container}>
             <Text style={styles.mainText}>Manage Items</Text>
 
@@ -180,6 +185,7 @@ const SellScreen = ({navigation}) => {
         </ScrollView>
             
          </View>
+         </TouchableWithoutFeedback>
 
     )
 

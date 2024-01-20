@@ -89,6 +89,36 @@ export const getAllBusinessData = (callback) => {
   });
 };
 
+export const getTodayBusinessData = (callback) => {
+  const today = new Date().toISOString().slice(0, 10);
+
+  db.transaction((tx) => {
+    tx.executeSql(
+      'SELECT * FROM business WHERE date = ?;',
+      [today],
+      (_, { rows }) => {
+        const todayBusinessData = rows._array;
+        callback(todayBusinessData);
+      }
+    );
+  });
+};
+
+export const getSelectedDateBusinessData = (date, callback) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      'SELECT * FROM business WHERE date = ?;',
+      [date],
+      (_, { rows }) => {
+        const todayBusinessData = rows._array;
+        callback(todayBusinessData);
+      }
+    );
+  });
+};
+
+
+
 export const searchCustomersByName = (searchName, callback) => {
     db.transaction((tx) => {
       tx.executeSql(

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { searchCustomersByName, saveBusiness, getAllBusinessData, updateBalance } from './Database';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
 
@@ -32,6 +32,11 @@ const PrinterScreen = ({navigation}) => {
       setItemList([{id:1,name:"PhotoPrint"},{id:2,name:"Email"},{id:3,name:"TypeBinding"},{id:4,name:"WelloBinding"}]);
 
     }, []);
+
+
+    const handleBackgroundPress = () => {
+      Keyboard.dismiss();
+    };
   
 
 
@@ -200,6 +205,15 @@ const PrinterScreen = ({navigation}) => {
 
     const selectedPageType = (page) => {
       setSelectedPage(page);
+      if(page == "A4"){
+        setButtonColorSeven('#079992');
+        setButtonColorEight('#f5cd79');
+      }
+
+      if(page == "A3"){
+        setButtonColorSeven('#f5cd79');
+        setButtonColorEight('#079992');
+      }
     }
 
     const openDropDown = () => {
@@ -218,7 +232,10 @@ const PrinterScreen = ({navigation}) => {
     }
 
     return (
+    
+    <TouchableWithoutFeedback onPress={handleBackgroundPress}>
     <View style={styles.body}>
+      
 
       <TouchableOpacity
         style={styles.customerBtn}
@@ -313,7 +330,7 @@ const PrinterScreen = ({navigation}) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.dropDownBtn, { backgroundColor: buttonEight }]}
+        style={[styles.dropDownBtn]}
         onPress={openDropDown}
       >
         <Text style={styles.commonBtnText}>+</Text>
@@ -400,8 +417,9 @@ const PrinterScreen = ({navigation}) => {
         <Text style={styles.processBtnText}>Done</Text>
       </TouchableOpacity>
 
-        
+    
     </View>
+    </TouchableWithoutFeedback>
     )
 }
 export default PrinterScreen

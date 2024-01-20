@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native';
 import { addCustomer, searchCustomersByName, updateBalance } from './Database';
 
 const DetailScreen = ({navigation}) => {
@@ -13,6 +13,10 @@ const DetailScreen = ({navigation}) => {
 
     const handleTextChange = (inputText) => {
         onChangeText(inputText);
+      };
+
+      const handleBackgroundPress = () => {
+        Keyboard.dismiss();
       };
 
       const todayPayment = (inputText) => {
@@ -64,6 +68,8 @@ const DetailScreen = ({navigation}) => {
 
 
     return (
+
+      <TouchableWithoutFeedback onPress={handleBackgroundPress}>
     <View style={styles.container}>
 
         <Text style={styles.mainText}>Manage Customers</Text>
@@ -137,6 +143,7 @@ const DetailScreen = ({navigation}) => {
         </TouchableOpacity>
 
     </View>
+    </TouchableWithoutFeedback>
     )
 }
 export default DetailScreen
@@ -268,7 +275,7 @@ const styles = StyleSheet.create({
       height: 40,
       width:'60%',
       borderWidth: 1,
-      marginTop:'5%',
+      marginTop:'10%',
       borderTopColor:'#0a3d62',
       borderLeftColor:'#0a3d62',
       borderRightColor:'#0a3d62',

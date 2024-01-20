@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import { searchCustomersByName, searchItemByName, saveBusiness, updateBalance, updateItemCount } from './Database';
 
 const SellItemScreen = ({ navigation, route }) => {
-  const { selectItems, currentCustomerName, currentCustomerId, currentBalanceValue, todayTotal } = route.params;
+  const { selectItems, currentCustomerName, currentCustomerId, Keyboard, TouchableWithoutFeedback, currentBalanceValue, todayTotal } = route.params;
 
 
     const [customerName, setCustomername] = React.useState('');
@@ -42,6 +42,10 @@ const SellItemScreen = ({ navigation, route }) => {
     const customerNameChange = (inputText) => {
         setCustomername(inputText);
       }
+
+      const handleBackgroundPress = () => {
+        Keyboard.dismiss();
+      };
 
     const searchItem = () => {
     if (itemName !== '') {
@@ -139,7 +143,6 @@ const SellItemScreen = ({ navigation, route }) => {
       saveBusiness(currentCustomer, currentCustomerName, newArray);
 
         const availableBlance = totalBalance - payment;
-        console.log(totalBalance, payment);
         updateBalance(currentCustomer, availableBlance);
 
         // alert("Business Completed Successfully..!");
@@ -156,7 +159,9 @@ const SellItemScreen = ({ navigation, route }) => {
       }
 
     return (
+         
     <View style={styles.body}>
+    
         <Text style={styles.textOne}>Make Business</Text>
 
         <Text style={styles.textTwo}>Search Customer :</Text>
@@ -289,10 +294,6 @@ const SellItemScreen = ({ navigation, route }) => {
 
 
      </View>
-
-
-
-
     )
 
 }
@@ -300,9 +301,9 @@ export default SellItemScreen
 
 const styles= StyleSheet.create({
     body : {
-      backgroundColor: '#0a3d62',
-      alignItems: 'center',
-      flex:1
+        backgroundColor: '#0a3d62',
+        alignItems: 'center',
+        flex:1
     },
     textTwo:{
         color:'#fff',

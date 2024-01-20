@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Button, Alert } from 'react-native';
-import { getAllBusinessData, searchCustomerNameById  } from './Database';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Button, Platform, Alert } from 'react-native';
+import { getAllBusinessData, searchCustomerNameById, getSelectedDateBusinessData, getTodayBusinessData  } from './Database';
 
 const BusinessScreen = ({navigation}) => {
 
-
-
   const [searchResults, setSearchResults] = React.useState([]);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const showDatepicker = () => {
+    setShowDatePicker(true);
+  };
+
+  const onDateChange = (event, selectedDate) => {
+    setShowDatePicker(Platform.OS === 'ios'); // Close the date picker on iOS
+    setSelectedDate(selectedDate || new Date());
+
+    const formattedDate = selectedDate.toISOString().split('T')[0];
+    fetchBusinessDataByDate(formattedDate);
+  };
 
 
   const searchBusiness = () => {
@@ -21,12 +35,61 @@ const BusinessScreen = ({navigation}) => {
       }); 
    };
 
+   const getTodayBusiness = () => {
+    getTodayBusinessData((results) => {
+      if (results.length > 0) {
+        setSearchResults(results);
+      } else {
+        alert('No business found.');
+      }
+    }); 
+ };
+
+ const fetchBusinessDataByDate = (selectedDate) => {
+  getSelectedDateBusinessData(selectedDate, (results) => {
+    if (results.length > 0) {
+      console.log(results);
+      setSearchResults(results);
+      var income = 0;
+      results.forEach((element) => {
+        income += element.totalAmount;
+      });
+      setTotalIncome(income);
+    } else {
+      alert('No business found.');
+    }
+  });
+};
 
    useEffect(() => {
-    searchBusiness();
+    getTodayBusiness();
   }, []);
 
     return(
+      <View style={styles.body}>
+
+    < View style={styles.container}>
+
+      <TouchableOpacity
+        style={styles.paymentBtn}
+        onPress={showDatepicker}
+        >
+        <Text style={styles.payedBtnText}>Select Date</Text>
+       </TouchableOpacity>
+
+       <Text style={styles.incomeTextOne}>Daily Total :</Text>
+       <Text style={styles.incomeTextTwo}>{totalIncome}</Text>
+
+      {showDatePicker && (
+        <DateTimePicker
+          value={selectedDate}
+          mode="date"
+          display="default"
+          onChange={onDateChange}
+        />
+        )}
+      </View>
+
         <ScrollView style={styles.btnSec}>
           {searchResults.map((result) => (
           <View horizontal={true}
@@ -34,7 +97,7 @@ const BusinessScreen = ({navigation}) => {
             style={styles.searchResultItem}
           >
             <Text style={styles.searchResultTextOne}>{result.customerName}</Text>
-            <Text style={styles.searchResultTextOne}>{result.date}</Text>
+            {/* <Text style={styles.searchResultTextOne}>{result.date}</Text> */}
             <Text style={styles.searchResultTextTwo}>{result.itemName} :{result.count}</Text>
             <Text style={styles.searchResultTextOne}>{result.totalAmount}</Text>
             
@@ -42,6 +105,7 @@ const BusinessScreen = ({navigation}) => {
           </View>
         ))}      
         </ScrollView>
+        </View>
     )
 
 
@@ -54,11 +118,28 @@ const styles= StyleSheet.create({
       alignItems: 'center',
       flex:1
     },
+    datePicker: {
+      width: 200,
+    },
+    incomeTextOne:{
+      color:'#fff',
+      fontWeight:'600',
+      fontSize:20,
+      marginTop:'5%',
+      marginLeft:'-5%'
+    },
+    incomeTextTwo:{
+      color:'#fff',
+      fontWeight:'600',
+      fontSize:25,
+      marginTop:'-8.2%',
+      marginLeft:'26%'
+    },
     btnSec:{
       backgroundColor: '#3c6382',
       width:'100%',
       alignSelf:'center',
-      marginTop:'15%'
+      marginTop:'5%'
     },
     searchResultItem:{
       backgroundColor:'#2d3436',
@@ -76,8 +157,23 @@ const styles= StyleSheet.create({
       color:'#fff',
       fontWeight:'bold',
       padding:5,
-      width:'34%'
-    }
+      width:'55%'
+    },
+    paymentBtn:{
+      backgroundColor:'#1abc9c',
+        paddingLeft:'15%',
+        paddingRight:'15%',
+        paddingTop:'2%',
+        paddingBottom:'2%',
+        borderRadius:2,
+        marginTop:'20%',
+        marginBottom:'1%',
+    },
+    payedBtnText:{
+      fontSize:20,
+        color:'#fff',
+        fontWeight:'bold',
+    },
       
     
   })
