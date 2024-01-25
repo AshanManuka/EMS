@@ -117,6 +117,25 @@ export const getSelectedDateBusinessData = (date, callback) => {
   });
 };
 
+export const getItemById = (itemId, callback) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      'SELECT * FROM item WHERE id = ?;',
+      [itemId],
+      (_, { rows }) => {
+        const result = rows._array[0];
+        callback(result);
+      },
+      (_, error) => {
+        console.error('Error executing SQL query:', error);
+      }
+    );
+  });
+};
+
+
+
+
 
 
 export const searchCustomersByName = (searchName, callback) => {
@@ -133,6 +152,7 @@ export const searchCustomersByName = (searchName, callback) => {
   };
 
   export const searchItemByName = (searchName, callback) => {
+    console.log(searchName)
     db.transaction((tx) => {
       tx.executeSql(
         'SELECT * FROM item WHERE itemName LIKE ?;',

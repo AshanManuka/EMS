@@ -80,12 +80,12 @@ const SellScreen = ({navigation}) => {
 
   }
 
-  const setDataToField =(id,itemName,description,qty,unitPrice) => {
+  const setDataToField =(id,itemName,description,qty,uPrice) => {
     onChangeText(itemName);
-    setItemDescription(description),
-    setUnitPrice(String(qty))
-    setQuantity(String(unitPrice))
-    setSelectedId(id)
+    setItemDescription(description);
+    setUnitPrice(String(uPrice));
+    setQuantity(String(qty));
+    setSelectedId(id);
 
   }
 
@@ -138,8 +138,8 @@ const SellScreen = ({navigation}) => {
 
             <TextInput
             style={styles.inputTwo}
-            onChangeText={changeQuantity}
-            value={quantity}
+            onChangeText={changeUnitPrice}
+            value={unitPrice}
             keyboardType='numeric'
             />
 
@@ -147,8 +147,8 @@ const SellScreen = ({navigation}) => {
 
             <TextInput
             style={styles.inputTwo}
-            onChangeText={changeUnitPrice}
-            value={unitPrice}
+            onChangeText={changeQuantity}
+            value={quantity}
             keyboardType='numeric'
             />
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { searchCustomersByName, saveBusiness, getAllBusinessData, updateBalance } from './Database';
+import { searchCustomersByName, saveBusiness } from './Database';
 import { StyleSheet, Text, View, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
@@ -29,8 +29,9 @@ const PrinterScreen = ({navigation}) => {
     const [showAdditionalFields, setShowAdditionalFields] = React.useState(false);
 
     useEffect(() => {
-      setItemList([{id:1,name:"PhotoPrint"},{id:2,name:"Email"},{id:3,name:"TypeBinding"},{id:4,name:"WelloBinding"}]);
 
+      const staticItemList = [{id:1,name:"PhotoPrint"},{id:2,name:"Email"},{id:3,name:"TypeBinding"},{id:4,name:"WelloBinding"}];
+      setItemList(staticItemList);
     }, []);
 
 
@@ -116,6 +117,8 @@ const PrinterScreen = ({navigation}) => {
         setButtonColorFour('#f5cd79');
         setButtonColorFive('#f5cd79');
         setButtonColorSix('#f5cd79');
+        setButtonColorSeven('#f5cd79');
+        setButtonColorEight('#f5cd79');
      
     }
 
@@ -200,7 +203,7 @@ const PrinterScreen = ({navigation}) => {
         setShowAdditionalFields(false);
       }
 
-      console.log(name);
+      setShowAdditionalFields(false);
     }
 
     const selectedPageType = (page) => {

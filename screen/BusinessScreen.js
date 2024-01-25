@@ -39,6 +39,11 @@ const BusinessScreen = ({navigation}) => {
     getTodayBusinessData((results) => {
       if (results.length > 0) {
         setSearchResults(results);
+        var income = 0;
+        results.forEach((element) => {
+        income += element.totalAmount;
+      });
+        setTotalIncome(income);
       } else {
         alert('No business found.');
       }
@@ -48,7 +53,6 @@ const BusinessScreen = ({navigation}) => {
  const fetchBusinessDataByDate = (selectedDate) => {
   getSelectedDateBusinessData(selectedDate, (results) => {
     if (results.length > 0) {
-      console.log(results);
       setSearchResults(results);
       var income = 0;
       results.forEach((element) => {
