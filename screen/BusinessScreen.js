@@ -136,8 +136,8 @@ const styles= StyleSheet.create({
       color:'#fff',
       fontWeight:'600',
       fontSize:25,
-      marginTop:'-8.2%',
-      marginLeft:'26%'
+      marginTop:'-6.5%',
+      marginLeft:'20%'
     },
     btnSec:{
       backgroundColor: '#3c6382',

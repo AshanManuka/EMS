@@ -79,7 +79,7 @@ const SellItemScreen = ({ navigation, route }) => {
 
     const setBalanceToField = (name,balance,id) => {
         setCurrentCustomer(id);
-        setCustomername(name);
+          setCustomername(name);
         setCurrentBalance(balance);
       }
 
@@ -148,12 +148,17 @@ const SellItemScreen = ({ navigation, route }) => {
       const updateBalanceOfCustomer = () => {
 
       const newArray = selectedItems.map(({ name, count, total }) => ({ name, count, total }));
-      saveBusiness(currentCustomer, customerName, newArray);
+      var finalCustomerName = 'Unknown';
+      if(customerName != ''){
+        finalCustomerName = customerName;
+        console.log(finalCustomerName)
+      }
+      saveBusiness(currentCustomer, finalCustomerName, newArray);
 
         const availableBlance = totalBalance - payment;
         updateBalance(currentCustomer, availableBlance);
 
-        // alert("Business Completed Successfully..!");
+        alert("Business Completed Successfully..!");
         setCustomername('');
         setItemName('');
         onChangeTotal(0);
@@ -366,14 +371,14 @@ const styles= StyleSheet.create({
     },
     searchResultsContainer: {
         position:'absolute',
-        marginTop: '50%',
+        marginTop: '45%',
         height:'5%',
         width:'85%',
         flexDirection: 'row',
       },
       searchResultsContainerTwo:{
         position:'absolute',
-        marginTop: '97%',
+        marginTop: '88%',
         height:'5%',
         width:'85%',
         flexDirection: 'row',

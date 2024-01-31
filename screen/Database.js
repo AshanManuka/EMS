@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("sample.db");
+const db = SQLite.openDatabase("newenet.db");
 
 export const setupDatabase = () => {
   db.transaction((tx) => {
@@ -26,6 +26,14 @@ export const setupItemTable = () => {
   });
 };
 
+export const setupQuickItemTable = () => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      'CREATE TABLE IF NOT EXISTS quickitem (id INTEGER PRIMARY KEY AUTOINCREMENT, itemName TEXT);'
+    );
+  });
+};
+
 export const addCustomer = (name,balance) => {
   db.transaction(
     (tx) => {
@@ -36,9 +44,17 @@ export const addCustomer = (name,balance) => {
   );
 };
 
+export const addQuickItem = (name) => {
+  db.transaction(
+    (tx) => {
+        tx.executeSql("INSERT INTO quickitem (itemName) VALUES (?);", [name]);
+    },
+    null,
+    () => console.log("QuickItem added successfully")
+  );
+};
+
 export const addItem = (name,description,qty,unitPrice) => {
-  console.log("indata");
-  console.log(name,description,qty,unitPrice);
   db.transaction(
     (tx) => {
         tx.executeSql("INSERT INTO item (itemName, description, qty, price) VALUES (?, ?, ?, ?);", [name,description,qty,unitPrice]);
@@ -85,6 +101,15 @@ export const getAllBusinessData = (callback) => {
     tx.executeSql('SELECT * FROM business;', [], (_, { rows }) => {
       const businessData = rows._array;
       callback(businessData);
+    });
+  });
+};
+
+export const getAllQuickItem = (callback) => {
+  db.transaction((tx) => {
+    tx.executeSql('SELECT * FROM quickitem;', [], (_, { rows }) => {
+      const items = rows._array;
+      callback(items);
     });
   });
 };

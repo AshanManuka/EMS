@@ -234,13 +234,12 @@ const styles = StyleSheet.create({
     substage:{
       backgroundColor:'#182C61',
       borderRadius:15,
-      padding:'5%',
+      padding:'10%',
       marginTop:'40%'
     },
     textThree:{
         color: '#dfe4ea',
         marginTop: '1%',
-        marginBottom:'1%',
         marginLeft:'2%',
         fontSize: 20,
         fontWeight: 'bold'
@@ -249,7 +248,7 @@ const styles = StyleSheet.create({
         color:'#EA2027',
         fontSize:25,
         marginLeft:'55%',
-        marginTop:'-10%'
+        marginTop:'-8%'
     },
     searchResultsContainer: {
       position:'absolute',

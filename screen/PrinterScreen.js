@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { searchCustomersByName, saveBusiness } from './Database';
+import { searchCustomersByName, updateBalance, saveBusiness, getAllQuickItem, addQuickItem } from './Database';
 import { StyleSheet, Text, View, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native'
 
 const PrinterScreen = ({navigation}) => {
@@ -16,6 +16,7 @@ const PrinterScreen = ({navigation}) => {
     const [currentCustomer, setCurrentCustomer] = React.useState('');
     const [currentCustomerName, setCurrentCustomerName] = React.useState('');
     const [selectedItem, setItemName] = React.useState('Not-Select');
+    const [quickInput, setQuickInput] = React.useState('');
     const [selectedPage, setSelectedPage] = React.useState('Not-Select');
     const [buttonOne, setButtonColorOne] = React.useState('#f5cd79');
     const [buttonTwo, setButtonColorTwo] = React.useState('#f5cd79');
@@ -30,7 +31,11 @@ const PrinterScreen = ({navigation}) => {
 
     useEffect(() => {
 
-      const staticItemList = [{id:1,name:"PhotoPrint"},{id:2,name:"Email"},{id:3,name:"TypeBinding"},{id:4,name:"WelloBinding"}];
+      getQuickList();
+
+
+
+      const staticItemList = [{id:1,itemName:"PhotoPrint"},{id:2,itemName:"Email"},{id:3,itemName:"TypeBinding"},{id:4,itemName:"WelloBinding"}];
       setItemList(staticItemList);
     }, []);
 
@@ -42,24 +47,38 @@ const PrinterScreen = ({navigation}) => {
 
 
     const handleTextChange = (inputText) => {
-      onChangeText(inputText); // Update the state with the typed text
-      //Implement code here to search customer by name
+      onChangeText(inputText); 
     };
+
+    const handleQuickInputChange = (inputText) => {
+      setQuickInput(inputText); 
+        };
 
     const itemCount = (inputText) => {
       onChangeQty(inputText)
-      //Implement code here to search customer by name
     };
 
     const unitPrice = (inputText) => {
-      onChangePrice(inputText); // Update the state with the typed text
-      //Implement code here to search customer by name
+      onChangePrice(inputText);
     };
 
     const todayPayment = (inputText) => {
-      onTodayPayment(inputText); // Update the state with the typed text
-      //Implement code here to search customer by name
+      onTodayPayment(inputText);
     };
+
+    const addQuickItems = () => {
+      addQuickItem(quickInput);
+      getQuickList();
+    }
+
+    const getQuickList = () => {
+      getAllQuickItem((results) => {
+        if (results.length > 0) {
+          console.log('Search results:', results);
+          setItemList(results);
+        }
+      });
+    }
 
     const searchCustomer = () => {
       if (text !== '') {
@@ -123,12 +142,13 @@ const PrinterScreen = ({navigation}) => {
     }
 
     const saveCustomerBalance = () => {
-      //const availableBlance = totalBalance - payment;
-      //updateBalance(currentCustomer, availableBlance) 
-
+      
       //update user by totalBlance
       const newArray = selectedItems.map(({ name, count, total }) => ({ name, count, total }));
       saveBusiness(currentCustomer, currentCustomerName, newArray);
+      
+      const availableBlance = totalBalance - payment;
+      updateBalance(currentCustomer, availableBlance); 
 
 
       setTodayTotal(0);
@@ -341,25 +361,43 @@ const PrinterScreen = ({navigation}) => {
 
   {showAdditionalFields && (
       <>
-      <View style={styles.abstractView}>
-          {itemList.map((result) => (
+    <View style={styles.abstractView}>
+    <ScrollView horizontal={true} style={styles.searchResultsContainerTwo}>
+        {itemList.map((result) => (
           <TouchableOpacity
             key={result.id}
-            style={styles.abstractBtn}
-            onPress={() => {selectedItemBtn(result.name)}}
+            style={styles.searchResultItemTwo}
+            onPress={() => {selectedItemBtn(result.itemName)}}
           >
-            <Text style={styles.commonBtnText}>{result.name}</Text>
+            <Text style={styles.searchResultText}>{result.itemName}</Text>
           </TouchableOpacity>
-          ))}
+        ))}
+      </ScrollView>
 
-        <TouchableOpacity
-        style={[styles.cancelBtn]}
-        onPress={() =>{selectedItemBtn("Cancel")}}
-      >
-        <Text style={styles.commonBtnText}>Cancel</Text>
-      </TouchableOpacity>
+      <TextInput
+        style={styles.quickInput}
+        onChangeText={handleQuickInputChange}
+        value={quickInput}
+      />
+
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={addQuickItems}
+          >
+            <Text style={styles.searchResultText}>Add</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.cancelBtn}
+            onPress={() =>{selectedItemBtn("cancel")}}
+          >
+            <Text style={styles.searchResultText}>Cancel</Text>
+          </TouchableOpacity>
+
 
       </View>
+
+
       </>
   )}
 
@@ -474,6 +512,20 @@ const styles= StyleSheet.create({
         color:'#fff',
         fontSize:18,
       },
+      quickInput: {
+        position:'absolute',
+        height: 10,
+        width:'45%',
+        borderWidth: 1,
+        marginTop:'28%',
+        marginLeft:'1%',
+        borderTopColor:'#0a3d62',
+        borderLeftColor:'#0a3d62',
+        borderRightColor:'#0a3d62',
+        borderBottomColor:'#fff',
+        color:'#fff',
+        fontSize:18,
+      },
       inputQty:{
         height: 40,
         width:'25%',
@@ -532,66 +584,90 @@ const styles= StyleSheet.create({
       },
       photocopySelectBtn:{
         backgroundColor:'#f5cd79',
-        paddingLeft:'5%',
-        paddingRight:'5%',
+        paddingLeft:'7%',
+        paddingRight:'7%',
+        paddingBottom:'2%',
+        paddingTop:'1%',
         marginTop:'25%',
         marginLeft:'-65%'
       },
       bwPrintoutSelectBtn:{
         backgroundColor:'#f5cd79',
-        paddingLeft:'4%',
-        paddingRight:'4%',
-        marginTop:'-7.25%',
+        paddingLeft:'7%',
+        paddingRight:'7%',
+        paddingBottom:'2%',
+        paddingTop:'1%',
+        marginTop:'-8.5%',
         marginLeft:'-8%'
       },
       colorprintoutSelectBtn:{
         backgroundColor:'#f5cd79',
-        paddingLeft:'4%',
-        paddingRight:'4%',
-        marginTop:'-7.25%',
-        marginLeft:'48%'
+        paddingLeft:'7%',
+        paddingRight:'7%',
+        paddingBottom:'2%',
+        paddingTop:'1%',
+        marginTop:'-8.5%',
+        marginLeft:'51%'
       },
       laminateSelectBtn:{
         backgroundColor:'#f5cd79',
-        paddingLeft:'5%',
-        paddingRight:'5%',
-        marginTop:'2%',
-        marginLeft:'-65%'
+        paddingLeft:'7%',
+        paddingRight:'7%',
+        paddingBottom:'2%',
+        paddingTop:'1%',
+        marginTop:'1%',
+        marginLeft:'-64%'
       },
       coverPageSelectBtn:{
         backgroundColor:'#f5cd79',
-        paddingLeft:'3%',
-        paddingRight:'3%',
-        marginTop:'-7.25%',
-        marginLeft:'-8%'
+        paddingLeft:'7%',
+        paddingRight:'7%',
+        paddingBottom:'2%',
+        paddingTop:'1%',
+        marginTop:'-8.5%',
+        marginLeft:'-4%'
       },
       photoPrintSelectBtn:{
         backgroundColor:'#f5cd79',
         paddingLeft:'7%',
         paddingRight:'7%',
-        marginTop:'-7.25%',
-        marginLeft:'48%'
+        paddingBottom:'2%',
+        paddingTop:'1%',
+        marginTop:'-8.5%',
+        marginLeft:'52%'
       },
       a4SelectBtn:{
         backgroundColor:'#f5cd79',
         paddingLeft:'12%',
         paddingRight:'12%',
-        marginTop:'2%',
-        marginLeft:'-45%'
+        paddingBottom:'0.5%',
+        paddingTop:'1%',
+        marginTop:'1.5%',
+        marginLeft:'-50%'
       },
       a3SelectBtn:{
         backgroundColor:'#f5cd79',
         paddingLeft:'12%',
         paddingRight:'12%',
-        marginTop:'-7.25%',
-        marginLeft:'20%'
+        paddingBottom:'0.5%',
+        paddingTop:'1%',
+        marginTop:'-7%',
+        marginLeft:'15%'
       },
       cancelBtn:{
         backgroundColor:'#c0392b',
-        paddingLeft:'5%',
-        paddingRight:'5%',
-        marginTop:'-30%',
-        marginLeft:'60%'
+        marginTop:'-20%',
+        marginLeft:'52%',
+        marginBottom:'0.5%',
+        width:'45%',
+      },
+      addBtn:{
+        position:'absolute',
+        backgroundColor:'#00b894',
+        marginTop:'28%',
+        marginLeft:'52%',
+        marginBottom:'0.5%',
+        width:'36%',
       },
       abstractBtn:{
         backgroundColor:'#f5cd79',
@@ -602,20 +678,13 @@ const styles= StyleSheet.create({
         width:'45%',
         marginLeft:'-20%'
       },
-      abstractView:{
-        position:'absolute',
-        backgroundColor:'#0a3d62',
-        width:'95%',
-        height:'15%',
-        alignItems:'center',
-        marginTop:'55%'
-      },
       dropDownBtn:{
         backgroundColor:'#f5cd79',
         paddingLeft:'3%',
         paddingRight:'3%',
-        marginTop:'-7.25%',
-        marginLeft:'65%'
+        marginTop:'-5.75%',
+        marginLeft:'55%',
+        flexDirection: 'column',
       },
       commonBtnText:{
         fontSize:20,
@@ -623,7 +692,7 @@ const styles= StyleSheet.create({
       },
       processBtn:{
         backgroundColor:'#ffcccc',
-        marginTop:'-10%',
+        marginTop:'-8%',
         paddingLeft:'5%',
         paddingRight:'5%',
         paddingTop:'1%',
@@ -647,7 +716,7 @@ const styles= StyleSheet.create({
       },
       confirmBtn:{
         backgroundColor:'#0be881',
-        marginTop:'-11.25%',
+        marginTop:'-9.5%',
         paddingLeft:'15%',
         paddingRight:'15%',
         paddingTop:'2%',
@@ -657,7 +726,7 @@ const styles= StyleSheet.create({
       },
       customerBtn:{
         backgroundColor:'#ff7675',
-        marginTop:'5%', //change again
+        marginTop:'15%', //change again
         marginBottom:'5%',
         paddingLeft:'30%',
         paddingRight:'30%',
@@ -667,7 +736,7 @@ const styles= StyleSheet.create({
       },
       searchResultsContainer: {
         position:'absolute',
-        marginTop: '40%',
+        marginTop: '45%',
         flexDirection: 'row',
         //alignItems: 'center',
         width:'99%',
@@ -681,9 +750,29 @@ const styles= StyleSheet.create({
         
       },
       searchResultText: {
-        color: '#fff',
+        color: '#000',
         fontSize: 18,
         textAlign: 'center',
+      },
+      searchResultItemTwo: {
+        backgroundColor: '#f5cd79',
+          padding: 10,
+          marginVertical: 5,
+          marginRight: 2,
+          borderRadius: 5,
+          height:'23%'
+      },
+      searchResultsContainerTwo: {
+        marginTop: '5%',
+        height:'5%',
+        width:'100%',
+        flexDirection: 'row',
+      },
+      abstractView:{
+        backgroundColor:'#0a3d62',
+        width:'95%',
+        height:180,
+        marginTop:'-43%'
       },
           
   })

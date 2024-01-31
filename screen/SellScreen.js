@@ -130,6 +130,7 @@ const SellScreen = ({navigation}) => {
 
             <TextInput
             style={styles.inputTwo}
+            placeholder='Quick'
             onChangeText={changeItemDescription}
             value={itemDescription}
             />

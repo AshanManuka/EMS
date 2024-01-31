@@ -7,7 +7,7 @@ import HomeScreen from './screen/HomeScreen';
 import DetailScreen from './screen/DetailScreen';
 import PrinterScreen from './screen/PrinterScreen';
 import { setupDatabase } from './screen/Database';
-import { setupBusinessTable, setupItemTable } from './screen/Database';
+import { setupBusinessTable, setupItemTable, setupQuickItemTable } from './screen/Database';
 import BusinessScreen from './screen/BusinessScreen';
 import SellScreen from './screen/SellScreen';
 import SellItemScreen from './screen/SellItemScreen';
@@ -20,6 +20,7 @@ export default function App() {
     setupDatabase();
     setupBusinessTable();
     setupItemTable();
+    setupQuickItemTable();
   }, []);
 
 

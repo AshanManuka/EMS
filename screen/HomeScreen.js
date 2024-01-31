@@ -70,7 +70,7 @@ const styles= StyleSheet.create({
     },
     textOne:{
       color: '#dfe4ea',
-      marginTop: '10%',
+      marginTop: '15%',
       marginBottom:'8%',
       fontSize: 20,
       fontWeight: 'bold'
