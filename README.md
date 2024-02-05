@@ -12,10 +12,12 @@ Through the integration of React Native, the application ensures a responsive an
 <br><br>
 Screens
 ---------------------
-![WhatsApp Image 2024-02-05 at 12 19 25 (1)](https://github.com/AshanManuka/EMS/assets/88023478/bdfb44cc-0c47-4dea-b7b4-34fa743bbcf7)
 
-![WhatsApp Image 2024-02-05 at 12 19 26](https://github.com/AshanManuka/EMS/assets/88023478/e8192b2c-c09d-4f7e-b279-64fe1f40ae6b)
-![WhatsApp Image 2024-02-05 at 12 19 25](https://github.com/AshanManuka/EMS/assets/88023478/1fc6069f-9d1e-4591-b2ad-5ae606f0ba60)
+<img src='https://github.com/AshanManuka/EMS/assets/88023478/24d53da2-4cce-43e1-8e21-8c6579be8707' width='20%' height='15%' alt="image"/>
+<img src='https://github.com/AshanManuka/EMS/assets/88023478/bdfb44cc-0c47-4dea-b7b4-34fa743bbcf7' width='20%' height='15%' alt="image"/>
+<img src='https://github.com/AshanManuka/EMS/assets/88023478/e8192b2c-c09d-4f7e-b279-64fe1f40ae6b' width='20%' height='15%' alt="image"/>
+<img src='https://github.com/AshanManuka/EMS/assets/88023478/1fc6069f-9d1e-4591-b2ad-5ae606f0ba60' width='20%' height='15%' alt="image"/>
 
 
-![WhatsApp Image 2024-02-05 at 12 19 26 (1)](https://github.com/AshanManuka/EMS/assets/88023478/24d53da2-4cce-43e1-8e21-8c6579be8707)
+
+
